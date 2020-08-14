@@ -2,23 +2,17 @@
 <html>
 <head>
   <script type="text/javascript" src="scripts/windowResize.js"></script>
+  <script type="text/javascript" src="scripts/init.js"></script>
+  <script type="text/javascript" src="scripts/darwManger.js"></script>
+  <script type="text/javascript" src="scripts/mousehold.js"></script>
+
+<link rel="stylesheet" type="text/css" href="css/main.css">
 </head>
 
-<body onresize="resize()" onload="resize()" style="margin: 0;">
+<body onresize="resize()" onload="init()">
 
-<div id="demo"></div>
+<div id="item"></div>
 
-  <canvas id="myCanvas" width="100" height="100" style="border:1px solid #d3d3d3;"> Your browser does not support the HTML canvas tag.</canvas>
-
-
-<script>
-var c = document.getElementById("myCanvas");
-var ctx = c.getContext("2d");
-ctx.moveTo(0,0);
-ctx.lineTo(200,100);
-ctx.stroke();
-</script>
-
-
+  <canvas onmousedown="drawManger(event)" id="myCanvas" width="0" height="0"> Your browser does not support the HTML canvas tag.</canvas>
 </body>
 </html>
