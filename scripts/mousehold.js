@@ -2,6 +2,7 @@
 function mousehold() {
 
 var click = false;
+var fresh = true;
 
 const event = document.getElementById('myCanvas');
 
@@ -19,7 +20,8 @@ event.addEventListener("touchmove", touchCor);
 // I
 function mouseStart() {
 click = true;
-mouseXY();
+fresh = true;
+mouseXY(fresh);
 console.log("Mouse down");
 }
 
@@ -31,7 +33,8 @@ function mouseEnd()
 
 function touchStart() {
 click = true;
-fingerXY();
+fresh = true;
+fingerXY(fresh);
 console.log("finger down");
 }
 
@@ -50,8 +53,10 @@ function getMouseCor() {
 if (click == true)
 {
 console.log("caling darw");
-mouseXY();
+mouseXY(fresh);
+fresh = false;
 }
+
 }
 
 function touchCor()
@@ -61,7 +66,8 @@ function touchCor()
 if (click == true)
 {
 console.log("caling darw");
-fingerXY();
+fingerXY(fresh);
+fresh = false;
 }
 }
 
