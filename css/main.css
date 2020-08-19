@@ -2,4 +2,20 @@ body{
   margin: 0px;
   padding: 0px;
   overflow: hidden;
+  position: fixed;
+  height: 100%;
+  width: 100%;
+
+
+-moz-user-select: none;
+-webkit-user-select: none;
+-ms-user-select: none;
+user-select: none;
+}
+
+canvas {
+-moz-user-select: none;
+-webkit-user-select: none;
+-ms-user-select: none;
+user-select: none;
 }

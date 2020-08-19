@@ -18,11 +18,20 @@ event.addEventListener("touchmove", touchCor);
 
 
 // I
-function mouseStart() {
-click = true;
-fresh = true;
-mouseXY(fresh);
-console.log("Mouse down");
+function mouseStart(e) {
+
+  if (typeof e === 'object') {
+
+if(e.button == 0)
+{
+  click = true;
+  mouseXY(true);
+  console.log("Mouse down");
+}
+  }
+
+
+
 }
 
 function mouseEnd()
@@ -31,10 +40,10 @@ function mouseEnd()
   console.log("Mouse ups");
 }
 
+
 function touchStart() {
 click = true;
-fresh = true;
-fingerXY(fresh);
+fingerXY(true);
 console.log("finger down");
 }
 
@@ -53,21 +62,20 @@ function getMouseCor() {
 if (click == true)
 {
 console.log("caling darw");
-mouseXY(fresh);
-fresh = false;
+mouseXY(false);
 }
 
 }
 
 function touchCor()
 {
-  console.log("mouse moved: " + click);
+  console.log("touch moved: " + click);
 
 if (click == true)
 {
 console.log("caling darw");
-fingerXY(fresh);
 fresh = false;
+fingerXY(false);
 }
 }
 
