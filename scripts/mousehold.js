@@ -1,8 +1,9 @@
 
-function mousehold() {
-
 var click = false;
 var fresh = true;
+var menuActive = false;
+
+function mousehold() {
 
 const event = document.getElementById('myCanvas');
 
@@ -15,25 +16,23 @@ event.addEventListener("touchend", touchEnd);
 
 event.addEventListener("mousemove", getMouseCor);
 event.addEventListener("touchmove", touchCor);
+}
 
-
-// I
+// When the mouse is pressed down. Trigger this.
 function mouseStart(e) {
 
   if (typeof e === 'object') {
 
-if(e.button == 0)
+if(e.button == 0 && menuActive == false)
 {
   click = true;
   mouseXY(true);
   console.log("Mouse down");
 }
-  }
-
-
-
+}
 }
 
+// WHen mouse is let got then finish drawing.
 function mouseEnd()
 {
   click = false;
@@ -42,9 +41,12 @@ function mouseEnd()
 
 
 function touchStart() {
+if(menuActive == false)
+{
 click = true;
 fingerXY(true);
 console.log("finger down");
+}
 }
 
 function touchEnd()
@@ -61,10 +63,14 @@ function getMouseCor() {
 
 if (click == true)
 {
+  if(menuActive == false)
+  {
 console.log("caling darw");
 mouseXY(false);
+} else {
+  mouseEnd();
 }
-
+}
 }
 
 function touchCor()
@@ -73,10 +79,17 @@ function touchCor()
 
 if (click == true)
 {
+  if(menuActive == false)
+  {
 console.log("caling darw");
 fresh = false;
 fingerXY(false);
+} else {
+  touchEnd();
+}
 }
 }
 
+function menuActiveFF(isActive) {
+  menuActive = isActive;
 }

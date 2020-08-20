@@ -1,5 +1,7 @@
 var lx, ly;
 var size = 2;
+var canvasData;
+
 // Points Arrys
 var pAX = []; // X cordiante
 var pAY = []; // Y cordainte
@@ -145,19 +147,22 @@ function curSize() {
 
 
 function saveDrawingCookie() {
+/*
 setCookie("pAX", pAX.join("-"));
 setCookie("pAY", pAY.join("-"));
 setCookie("pAS", pAS.join("-"));
 console.log("saving cookies first xy should be: " + pAX + " " + pAY);
+*/
 }
 
 function loadDrawingCookie() {
-  
+
     console.log("Attempting to laod cookies.");
     pAX = getCookie("pAX").split("-");
     pAY = getCookie("pAY").split("-");
     pAS = getCookie("pAS").split("-");
 
   console.log("Buffers now be: " + pAX + " " + pAY);
+  console.log("Loaded Cookie;");
   redrawCanvas();
 }

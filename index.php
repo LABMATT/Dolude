@@ -15,6 +15,7 @@
   <script type="text/javascript" src="scripts/disableRightMenu.js"></script>
   <script type="text/javascript" src="scripts/menu.js"></script>
   <script type="text/javascript" src="scripts/cookieManger.js"></script>
+  <script type="text/javascript" src="scripts/nearestPointUI.js"></script>
 
 
 <link rel="stylesheet" type="text/css" href="css/main.css">
@@ -22,6 +23,6 @@
 
 <body scroll="no" onresize="resize()" onload="init()">
 
-  <canvas id="myCanvas" width="0" height="0">Your browser does not support the HTML canvas tag. You also need javascript enabled!</canvas>
+  <canvas id="myCanvas" width="1" height="1">Your browser does not support the HTML canvas tag. You also need javascript enabled!</canvas>
 </body>
 </html>
