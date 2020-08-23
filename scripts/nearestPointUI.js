@@ -1,8 +1,30 @@
+var nodePerant= [];
+var nodeName = [];
+var nodeX = [];
+var nodeY = [];
+var nodeText = [];
+var nodeAngle = [];
+var nodeDistance = [];
+var nodeSrc = [];
+var nodeFunc = [];
 
-
-function anchor(z, y, size, text, colour, outline, src, func)
+function anchor(x, y, size, text, textColour, colour, outline, src, func)
 {
+  var canvas = document.getElementById("myCanvas");
+  var ctx = canvas.getContext("2d");
+  ctx.beginPath();
+  ctx.fillStyle = colour;
+  ctx.arc(x, y, size, 0, 2 * Math.PI);
+  ctx.fill();
 
+  ctx.textAlign = "center";
+  ctx.fillStyle = textColour;
+  ctx.font = (size/2.5) + "px Arial";
+  ctx.fillText(text ,x ,y + size + 20);
+
+  ctx.fill();
+  ctx.stroke();
+  ctx.closePath();
 }
 
 // A node is a child dot of the main anchor dot or anothe node.
@@ -12,6 +34,13 @@ function anchor(z, y, size, text, colour, outline, src, func)
 // text = the text displayed under the node.
 // src = the image thats displayed on the node.
 // func = the function that is triggered when clicked.
-function node(perant, angle, distance, text, src, func) {
+function node(perant, nodeName, angle, distance, size, text, src, func) {
+
+var x, y;
+
+}
+
+
+function drawMenu() {
 
 }

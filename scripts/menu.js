@@ -39,14 +39,7 @@ function menu() {
 
   menuActiveFF(true);
 
-  var ctx = canvas.getContext("2d");
-ctx.beginPath();
-
-ctx.arc(menuCenterX, menuCenterY, 50, 0, 2 * Math.PI);
-ctx.fillStyle = "orange"
-ctx.fill();
-ctx.stroke();
-ctx.closePath();
+  anchor(menuCenterX, menuCenterY, 50, "Dolude", "orange", "orange", "", "");
 
 }
 
