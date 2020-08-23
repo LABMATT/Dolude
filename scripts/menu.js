@@ -39,7 +39,7 @@ function menu() {
 
   menuActiveFF(true);
 
-  anchor(menuCenterX, menuCenterY, 50, "Dolude", "orange", "orange", "", "");
+  anchor(menuCenterX, menuCenterY, 50, "Dolude", "black", "orange", "", "", "");
 
 }
 
