@@ -72,11 +72,13 @@ if(validPernat == true)
   ctx.fillStyle = colour;
   ctx.arc(x, y, size, 0, 2 * Math.PI);
   ctx.fill();
+  ctx.stroke()
 
   ctx.textAlign = "center";
   ctx.fillStyle = textColour;
   ctx.font = (size/2.5) + "px Arial";
-  ctx.fillText(nodeName, x, y + size + 20);
+  ctx.fillText(name, x, y + size + 20);
+
   ctx.closePath();
 
   nodeName.push(name);
