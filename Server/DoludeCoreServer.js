@@ -8,6 +8,7 @@ var currentUsers = 0;
 // SessionID Name:unix Time stamp
 // Host password.
 var sessionID = []; 
+var sessionHostName = [];
 var sessionHostPw = [];
 var sessionTimout = [];
 var sessionParticipants = [];
@@ -20,15 +21,30 @@ http.listen(port, () => {
 // Notifi console of current active users stats.
 io.on('connection', (socket) => {
   currentUsers++;
-  console.log('User connected, Current Users: ' + currentUsers);
+  console.log("User " + socket.id + " connected, Current Users: " + currentUsers);
 });
 
 // Notif console of disconnected user.
 io.on('connection', (socket) => {
-  console.log('a user connected');
   socket.on('disconnect', () => {
     currentUsers--;
-    console.log('User disconnected, Current Users: ' + currentUsers);
+    console.log("User " + socket.id + "  disconnected, Current Users: " + currentUsers);
+
+    for(i = 0; i < sessionID.length; i++)
+    {
+      if(sessionID[i] == socket.id)
+      {
+displayRoster();
+
+        sessionID.splice(i, 1);
+        sessionHostName.splice(i, 1);
+        sessionHostPw.splice(i, 1);
+        sessionTimout.splice(i, 1);
+        sessionParticipants.splice(i, 1);
+        console.log("Socket " + socket.id + " removed from server roster.")
+        break;
+      }
+    }
   });
 });
 
@@ -37,14 +53,13 @@ io.on('connection', (socket) => {
 io.on('connection', (socket) => {
   socket.on('newHost', (msg) => {
     
-    var d = new Date();
+    var newSessionID = socket.id;
 
-    var newSessionID = msg + ":" + timeStamp();
-  
-    sessionID.push(newSessionID);
     socket.emit("sessionID", newSessionID);
-    console.log("session id is: " + newSessionID)
+
     sessionID.push(newSessionID);
+    sessionHostName.push(msg)
+    sessionTimout.push(timeStamp());
   });
 });
 
@@ -54,12 +69,12 @@ io.on('connection', (socket) => {
 
     console.log("paswuser: " + msg);
     // [User id, Password]
-    var setpassword = msg.split(";");
+    var setpassword = msg;
 
-    console.log("looking for that user: " + setpassword[0]);
+    console.log("looking for that user: " + setpassword);
     for(i = 0; i < sessionID.length; i++)
     {
-      if(sessionID[i] == setpassword[0])
+      if(sessionID[i] == socket.id)
       {
         console.log("found that user");
         sessionHostPw[i] = setpassword[1];
@@ -77,4 +92,15 @@ function timeStamp()
   var d = new Date();
 
     return (Math.round(d / 1000));
+}
+
+
+function displayRoster()
+{
+
+  console.log(sessionID);
+  console.log(sessionHostName);
+  console.log(sessionHostPw);
+  console.log(sessionTimout);
+  console.log(sessionParticipants);
 }

@@ -136,7 +136,7 @@ function canvasBacking() {
 
 
 function curSize() {
-  size = size + 2;
+  size = size + 20;
 
   if(size > 30)
   {

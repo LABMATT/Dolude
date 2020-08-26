@@ -17,6 +17,8 @@
   <script type="text/javascript" src="scripts/menu.js"></script>
   <script type="text/javascript" src="scripts/cookieManger.js"></script>
   <script type="text/javascript" src="scripts/nearestPointUI.js"></script>
+  <script type="text/javascript" src="scripts/hostDolude.js"></script>
+  <script type="text/javascript" src="scripts/shortcutManger.js"></script>
   <script src="socket.io/dist/socket.io.js"></script>
 
 <script>
@@ -28,16 +30,24 @@
   socket.on('sessionID', function(msg){
       console.log(msg);
       id = msg;
-      socket.emit("pw", id+";luck");
-
+      socket.emit("pw", "luck");
     });
+
+    
+
 </script>
 
 </head>
 
 <body scroll="no" onresize="resize()" onload="init()">
 
-
   <canvas id="myCanvas" width="1" height="1">Your browser does not support the HTML canvas tag. You also need javascript enabled!</canvas>
+
+  <div id="host">
+    <div id="hostLogin">
+      div
+  </div>
+  </div>
+
 </body>
 </html>
