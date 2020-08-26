@@ -6,7 +6,6 @@ body{
   height: 100%;
   width: 100%;
 
-
 -moz-user-select: none;
 -webkit-user-select: none;
 -ms-user-select: none;
@@ -35,9 +34,8 @@ user-select: none;
 
 #hostLogin {
 
-  margin-top: 20%;
-  margin-bottom: 25%;
+  margin: auto;
 
-  padding: 5%;
+  padding:2%;
   background-color: blue;
 }
