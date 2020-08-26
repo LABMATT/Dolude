@@ -3,6 +3,7 @@
 <head>
 <title>Dolude</title>
 
+<link rel="stylesheet" type="text/css" href="css/main.css">
 
 <meta name="viewport" content="user-scalable=no">
 <meta name="apple-mobile-web-app-capable" Content="yes">
@@ -16,8 +17,13 @@
   <script type="text/javascript" src="scripts/menu.js"></script>
   <script type="text/javascript" src="scripts/cookieManger.js"></script>
   <script type="text/javascript" src="scripts/nearestPointUI.js"></script>
+  <script src="socket.io/dist/socket.io.js"></script>
 
-<link rel="stylesheet" type="text/css" href="css/main.css">
+<script>
+  var socket = io("http://localhost:3000");
+  socket.emit("chat", "hello");
+</script>
+
 </head>
 
 <body scroll="no" onresize="resize()" onload="init()">
