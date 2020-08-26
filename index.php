@@ -20,8 +20,17 @@
   <script src="socket.io/dist/socket.io.js"></script>
 
 <script>
-  var socket = io("http://localhost:3000");
-  socket.emit("chat", "hello");
+  var socket = io("http://10.0.0.245:3000");
+  var id;
+  socket.emit("newHost", "paul");
+  
+
+  socket.on('sessionID', function(msg){
+      console.log(msg);
+      id = msg;
+      socket.emit("pw", id+";luck");
+
+    });
 </script>
 
 </head>
