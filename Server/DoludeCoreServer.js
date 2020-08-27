@@ -10,6 +10,7 @@ var currentUsers = 0;
 var sessionID = []; 
 var sessionHostName = [];
 var sessionHostPw = [];
+var sessionHostOrHosting = [];
 var sessionTimout = [];
 var sessionParticipants = [];
 
@@ -21,14 +22,14 @@ http.listen(port, () => {
 // Notifi console of current active users stats.
 io.on('connection', (socket) => {
   currentUsers++;
-  console.log("User " + socket.id + " connected, Current Users: " + currentUsers);
+  console.log("User <" + socket.id + "> connected, Current Users: <" + currentUsers + ">");
 });
 
 // Notif console of disconnected user.
 io.on('connection', (socket) => {
   socket.on('disconnect', () => {
     currentUsers--;
-    console.log("User " + socket.id + "  disconnected, Current Users: " + currentUsers);
+    console.log("User <" + socket.id + ">  disconnected, Current Users: " + currentUsers + ">");
 
     for(i = 0; i < sessionID.length; i++)
     {
@@ -41,7 +42,7 @@ displayRoster();
         sessionHostPw.splice(i, 1);
         sessionTimout.splice(i, 1);
         sessionParticipants.splice(i, 1);
-        console.log("Socket " + socket.id + " removed from server roster.")
+        console.log("Socket <" + socket.id + "> removed from server roster.")
         break;
       }
     }
@@ -55,11 +56,11 @@ io.on('connection', (socket) => {
     
     var newSessionID = socket.id;
 
-    socket.emit("sessionID", newSessionID);
-
     sessionID.push(newSessionID);
     sessionHostName.push(msg)
     sessionTimout.push(timeStamp());
+
+    console.log("User: <" + newSessionID + "> name <" + msg + ">")
   });
 });
 
@@ -76,9 +77,10 @@ io.on('connection', (socket) => {
     {
       if(sessionID[i] == socket.id)
       {
-        console.log("found that user");
-        sessionHostPw[i] = setpassword[1];
+        console.log("found user id <" + socket.id + "> named <" + sessionHostName[i] + "> with password <" + setpassword + ">");
+        sessionHostPw[i] = setpassword;
         sessionTimout[i] = timeStamp();
+        socket.emit("Connected", socket.id);
         break;
       }
     }
@@ -103,4 +105,31 @@ function displayRoster()
   console.log(sessionHostPw);
   console.log(sessionTimout);
   console.log(sessionParticipants);
+}
+
+// Allow console input
+const readline = require('readline').createInterface({
+  input: process.stdin,
+  output: process.stdout
+})
+
+readline.on("line", (name) => {
+  if(name == "u")
+  {
+    displayRoster();
+  }
+})
+
+
+// Get the the user postion from id
+function getPos(scoketid)
+{
+  for(i = 0; i < sessionID.length; i++)
+  {
+    if(sessionID[i] == scoketid)
+    {
+    return i;
+    }
+  }
+  return null;
 }

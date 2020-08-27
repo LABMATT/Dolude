@@ -24,7 +24,7 @@ function downTrigger(e)
         console.log("ITS CONTL")
     } else if(keycode == "KeyJ" && ctl == true)
     {
-        joinHost();
+        joinMenu();
         e.preventDefault();
         e.stopPropagation();
     }

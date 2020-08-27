@@ -18,57 +18,54 @@
   <script type="text/javascript" src="scripts/menu.js"></script>
   <script type="text/javascript" src="scripts/cookieManger.js"></script>
   <script type="text/javascript" src="scripts/nearestPointUI.js"></script>
-  <script type="text/javascript" src="scripts/hostDolude.js"></script>
+  <script type="text/javascript" src="scripts/coludeManger.js"></script>
   <script type="text/javascript" src="scripts/shortcutManger.js"></script>
   <script src="socket.io/dist/socket.io.js"></script>
-
-<script>
-  var socket = io("http://10.0.0.245:3000");
-  var id;
-  socket.emit("newHost", "paul");
-  
-
-  socket.on('sessionID', function(msg){
-      console.log(msg);
-      id = msg;
-      socket.emit("pw", "luck");
-    });
-
-    
-
-</script>
 
 </head>
 
 <body scroll="no" onresize="resize()" onload="init()">
 
+<!-- Main Canvas -->
   <canvas id="myCanvas" width="1" height="1">Your browser does not support the HTML canvas tag. You also need javascript enabled!</canvas>
 
-
+<!-- For hosting a session -->
   <div id="host">
     <div id="hostLogin">
-
-    
-
-    <form action="/action_page.php" method="post">
-    <h1> Dolude is better with friends!</h1>
+    <h1>Host a session! <br>Dolude is better with friends!</h1>
     <h3>Start a session to get started.</h3>
     <h5> 1) Make host name. <br> 2) make password. <br> 3) friends can ctl + J enter both host and password</h5>
-
-  <div class="container">
+ 
     <label for="uname"><b>Host Name</b></label>
-    <input type="text" placeholder="Enter A Host Name!" name="uname" required>
+    <input type="text" placeholder="Enter A Host Name!" id="uname" required>
 
     <label for="psw"><b>Password</b></label>
-    <input type="password" placeholder="Enter Password!" name="psw" required>
-        
-    <button type="submit">Host Session!</button>
-    <button id="can" onclick="createHost()">Cancel (keybind: ctrl key + H)</button>
+    <input type="password" placeholder="Enter Password!" id="psw" required>
+
+    <button onclick="submitHost();">Host Session!</button>
+    <button onclick="createHost()" id="can">Cancel (keybind: ctrl key + H)</button>
   </div>
 
-</form>
-  </div>
+<!-- For Joining a session -->
+<div id="join">
+    <div id="hostLogin">
+    <h1>Join a session! <br>Dolude is better with friends!</h1>
+    <h3>Join a session to get started.</h3>
+    <h5> 1) Enter your firends host name. <br> 2) Enter you friends password. <br> 3) ctl + H to host your own session.</h5>
+ 
+    <label for="joinname"><b>Your Hosts Name</b></label>
+    <input type="text" placeholder="Enter Your Hosts Name!" id="joinname" required>
+
+    <label for="joinpw"><b>Hosts Password</b></label>
+    <input type="password" placeholder="Enter Your Hosts Password!" id="joinpw" required>
+
+    <button onclick="joinHost();">Join Session!</button>
+    <button onclick="joinMenu()" id="can">Cancel (keybind: ctrl key + J)</button>
   </div>
 
+
+
+
+  </div>
 </body>
 </html>

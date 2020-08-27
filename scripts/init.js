@@ -7,5 +7,7 @@ disableRightMenu();
 mousehold();
 startMenu();
 shortcutManger();
+createHost();
+joinMenu();
 console.log("INIT COMPLETE");
 }
