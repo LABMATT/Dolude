@@ -21,6 +21,9 @@
   <script type="text/javascript" src="scripts/coludeManger.js"></script>
   <script type="text/javascript" src="scripts/shortcutManger.js"></script>
   <script src="socket.io/dist/socket.io.js"></script>
+  <script>
+  const socket = io("http://10.0.0.245:3000");
+  </script>
 
 </head>
 
@@ -42,7 +45,7 @@
     <label for="psw"><b>Password</b></label>
     <input type="password" placeholder="Enter Password!" id="psw" required>
 
-    <button onclick="submitHost();">Host Session!</button>
+    <button id="subbut" onclick="hostMenu();">Host Session!</button>
     <button onclick="createHost()" id="can">Cancel (keybind: ctrl key + H)</button>
   </div>
 

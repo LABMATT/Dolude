@@ -9,6 +9,20 @@ var pAS = []; // Shape type
 var pAW = []; // Shape width
 var pAC = []; // Shape colour
 
+// NETWORK Arrys
+var spAX = []; // X cordiante
+var spAY = []; // Y cordainte
+var spAS = []; // Shape type
+var spAW = []; // Shape width
+var spAC = []; // Shape colour
+
+// RECIVED Arrys
+var rpAX = []; // X cordiante
+var rpAY = []; // Y cordainte
+var rpAS = []; // Shape type
+var rpAW = []; // Shape width
+var rpAC = []; // Shape colour
+
 function darwMangerInit() {
 
   const event = document.getElementById('myCanvas');
@@ -41,6 +55,7 @@ function drawPoint(x, y, fresh)
 
   if(fresh == true)
   {
+    addPart();
     lx = x;
     ly = y;
     fresh = false;
@@ -75,6 +90,17 @@ savePoints(x, y, submittShape, 20, 'black');
   ly = y;
 }
 
+// Adds what other people have drawn to your drawing.
+function addPart()
+{
+  pAX = pAX.concat(rpAX);
+  pAY = pAY.concat(rpAY);
+  pAS = pAS.concat(rpAS);
+  rpAX = [];
+  rpAY = [];
+  rpAS = [];
+}
+
 function savePoints(x, y, saveShape, saveWidth, saveColour) {
 
   pAX.push(x);
@@ -82,6 +108,24 @@ function savePoints(x, y, saveShape, saveWidth, saveColour) {
   pAS.push(saveShape);
   pAW.push(saveWidth);
   pAC.push(saveColour);
+
+
+  spAX.push(x);
+  spAY.push(y);
+  spAS.push(saveShape);
+  spAW.push(saveWidth);
+  spAC.push(saveColour);
+
+  if(saveShape == "move")
+  {
+    dispachCanvasUpdate();
+
+    spAX = [];
+    spAY = [];
+    spAS = [];
+    spAW = [];
+    spAC = [];
+  }
 }
 
 function redrawCanvas() {
