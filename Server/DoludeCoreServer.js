@@ -51,6 +51,36 @@ io.on('connection', (socket) => {
   socket.on('disconnect', () => {
     currentUsers--;
     console.log("User <" + socket.id + ">  disconnected, Current Users: " + currentUsers + ">");
+
+    if(sessionsJson.session[socket.id].host == true)
+    {
+
+      // SEND SOCKET IO INFO TO ALL PARTICPANTS TO TELL THEM HOST DISCONNECTED.
+      var hostname = sessionsJson.session[socket.id].name;
+      delete sessionUsernameJson.Hostnames[hostname];
+      delete sessionsJson.session[socket.id];
+    } else 
+    {
+     
+      // Get the disconnetor from session and get there name. Check there name against hostUserames and get the hosts socket. Then remove them from the particpant array.
+      var hostsname = sessionsJson.session[socket.id].name;
+
+      var hostId = sessionUsernameJson.Hostnames[hostsname].id;
+
+      // get array of partciapants
+      var part = sessionsJson.session[hostId].participants;
+      var index = part.indexOf(socket.id);
+      if(index != -1)
+      {
+        part.splice(index,1);
+      }
+      sessionsJson.session[hostId].participants = part;
+
+      delete sessionsJson.session[socket.id];
+
+      console.log("JsonFile: " + JSON.stringify(sessionsJson));
+      console.log("HostnamesLookup: " + JSON.stringify(sessionUsernameJson));
+    }
   });
 });
 
@@ -80,16 +110,7 @@ io.on('connection', (socket) => {
 
     if(sessionUsernameJson.Hostnames.hasOwnProperty(message[0]) == false)
     {
-      free = true;
       console.log("We have free propty");
-    } else if(sessionsJson.session[message[0]].host == false)
-    {
-      console.log("not host.");
-      free = true;
-    } 
-
-    if(free == true)
-    {
       sessionsJson.session[socket.id] = {"name":message[0], "pw":message[1], "displayname":message[0], "host":message[2], "tsp":timeStamp(), "participants":[]}
       sessionUsernameJson.Hostnames[message[0]] = {"id":socket.id};
       console.log("JsonFile: " + JSON.stringify(sessionsJson));
@@ -154,14 +175,11 @@ function timeStamp()
     return (Math.round(d / 1000));
 }
 
+//#### Displays the currect sessions ####
 function displayRoster()
 {
 
-  console.log(sessionID);
-  console.log(sessionHostName);
-  console.log(sessionHostPw);
-  console.log(sessionTimout);
-  console.log(sessionParticipants);
-  console.log(sessionMode);
+  console.log("JsonFile: " + JSON.stringify(sessionsJson));
+  console.log("HostnamesLookup: " + JSON.stringify(sessionUsernameJson));
 }
 

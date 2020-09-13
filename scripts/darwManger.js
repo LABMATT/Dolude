@@ -1,6 +1,6 @@
 var lx, ly;
 var size = 2;
-var canvasData;
+var canvasData = {"session":{}};;
 
 // Points Arrys
 var pAX = []; // X cordiante

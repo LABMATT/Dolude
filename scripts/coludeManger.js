@@ -96,7 +96,7 @@ function joinHost()
 
   console.log("user: " + name + " Password: " + pw);
 
-  socket.emit("newjoin", name + ":" + pw + ":" + false + ":" + "dspName");
+  socket.emit("newjoin", name + ":" + pw + ":" + false + ":" + "dspNuame");
 
 }
 
