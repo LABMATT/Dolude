@@ -1,6 +1,10 @@
 var lx, ly;
 var size = 2;
-var canvasData = {"session":{}};;
+
+// What layer and page were currently drawing on. Canvas data stores all the data of the drawing.
+var page = 1;
+var layer = 1;
+var canvasData = {"canvas":{}};;
 
 // Points Arrys
 var pAX = []; // X cordiante
@@ -22,12 +26,6 @@ var rpAY = []; // Y cordainte
 var rpAS = []; // Shape type
 var rpAW = []; // Shape width
 var rpAC = []; // Shape colour
-
-function darwMangerInit() {
-
-  const event = document.getElementById('myCanvas');
-  event.addEventListener("unload", saveDrawingCookie());
-}
 
 function mouseXY(fresh)
 {
@@ -77,10 +75,6 @@ savePoints(x, y, submittShape, 20, 'black');
   ctx.moveTo(lx,ly);
   ctx.lineTo(x,y);
 
-
-//ctx.arc(x, y, radius, 0, 2 * Math.PI, false);
-  //ctx.arc(150, 50, radius, 0, 2 * Math.PI, false);
-
   ctx.fillStyle = 'black';
   ctx.fill();
   ctx.stroke();
@@ -102,6 +96,29 @@ function addPart()
 }
 
 function savePoints(x, y, saveShape, saveWidth, saveColour) {
+
+  //var part = sessionsJson.session[hostID].participants;
+  //part.push(socket.id);
+  //sessionsJson.session[hostID].participants = part;
+  console.log("JsonFile: " + JSON.stringify(canvasData));
+
+  var xtemp = canvasData.canvas[socket.id].page[page].layer[layer].x; // X axis
+  var ytemp = canvasData.canvas[socket.id].page[page].layer[layer].y; // Y axis
+  var atemp = canvasData.canvas[socket.id].canvas.page[page].layer[layer].x; // action
+  var stemp = canvasData.canvas[socket.id].canvas.page[page].layer[layer].x; // size 
+  var ctemp = canvasData.canvas[socket.id].canvas.page[page].layer[layer].x; // colour
+  xtemp.push(x);
+  ytemp.push(y);
+  atemp.push(saveShape);
+  stemp.push(2);
+  ctemp.push("black");
+  canvasData.canvas[socket.id].page[page].layer[layer].x = xtemp; // X axis
+  canvasData.canvas[socket.id].page[page].layer[layer].y = ytemp; // Y axis
+  canvasData.canvas[socket.id].page[page].layer[layer].a = atemp; // action
+  canvasData.canvas[socket.id].page[page].layer[layer].s = stemp; // size 
+  canvasData.canvas[socket.id].page[page].layer[layer].c = ctemp; // colour
+
+  console.log("JsonFile: " + JSON.stringify(canvasData));
 
   pAX.push(x);
   pAY.push(y);
@@ -128,6 +145,8 @@ function savePoints(x, y, saveShape, saveWidth, saveColour) {
   }
 }
 
+
+//#### Redraws the canvas from array ####
 function redrawCanvas() {
 
   console.log("redrawn!");
@@ -178,35 +197,16 @@ function canvasBacking() {
   ctx.fill();
 }
 
+// Sets up the canvas json
+function initCANVAS() {
+  console.log("getting canvas ready");
 
-function curSize() {
-  size = size + 20;
+  //canvasData.canvas[socket.id] = {"page":{ "1":{"layers":{"1":{}}}}};
+  console.log("JsonFile: " + JSON.stringify(canvasData));
 
-  if(size > 30)
-  {
-    size = 2;
-  }
-  console.log("cursor size is: " + size);
-}
-
-
-function saveDrawingCookie() {
-/*
-setCookie("pAX", pAX.join("-"));
-setCookie("pAY", pAY.join("-"));
-setCookie("pAS", pAS.join("-"));
-console.log("saving cookies first xy should be: " + pAX + " " + pAY);
-*/
-}
-
-function loadDrawingCookie() {
-
-    console.log("Attempting to laod cookies.");
-    pAX = getCookie("pAX").split("-");
-    pAY = getCookie("pAY").split("-");
-    pAS = getCookie("pAS").split("-");
-
-  console.log("Buffers now be: " + pAX + " " + pAY);
-  console.log("Loaded Cookie;");
-  redrawCanvas();
+  canvasData.canvas[socket.id].page[page].layer[layer].x = []; // X axis
+  canvasData.canvas[socket.id].page[page].layer[layer].y = []; // Y axis
+  canvasData.canvas[socket.id].page[page].layer[layer].a = []; // action
+  canvasData.canvas[socket.id].page[page].layer[layer].s = []; // size 
+  canvasData.canvas[socket.id].page[page].layer[layer].c = []; // colour
 }

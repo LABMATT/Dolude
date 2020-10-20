@@ -52,6 +52,7 @@ io.on('connection', (socket) => {
     currentUsers--;
     console.log("User <" + socket.id + ">  disconnected, Current Users: " + currentUsers + ">");
 
+  if(sessionsJson.session.hasOwnProperty(socket.id)) {
     if(sessionsJson.session[socket.id].host == true)
     {
 
@@ -81,6 +82,7 @@ io.on('connection', (socket) => {
       console.log("JsonFile: " + JSON.stringify(sessionsJson));
       console.log("HostnamesLookup: " + JSON.stringify(sessionUsernameJson));
     }
+  }
   });
 });
 

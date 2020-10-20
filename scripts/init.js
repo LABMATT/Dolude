@@ -1,7 +1,9 @@
 function init()
 {
 console.log("INIT");
-savePoints();
+initCANVAS();
+console.log("we lived thoguht that");
+//savePoints();
 resize();
 disableRightMenu();
 mousehold();
