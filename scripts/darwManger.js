@@ -2,9 +2,10 @@ var lx, ly;
 var size = 2;
 
 // What layer and page were currently drawing on. Canvas data stores all the data of the drawing.
-var page = 1;
+var pageNumber = 1;
 var layer = 1;
-var canvasData = {"canvas":{}};;
+var canvasData;
+var nam = "";
 
 // Points Arrys
 var pAX = []; // X cordiante
@@ -102,21 +103,21 @@ function savePoints(x, y, saveShape, saveWidth, saveColour) {
   //sessionsJson.session[hostID].participants = part;
   console.log("JsonFile: " + JSON.stringify(canvasData));
 
-  var xtemp = canvasData.canvas[socket.id].page[page].layer[layer].x; // X axis
-  var ytemp = canvasData.canvas[socket.id].page[page].layer[layer].y; // Y axis
-  var atemp = canvasData.canvas[socket.id].canvas.page[page].layer[layer].x; // action
-  var stemp = canvasData.canvas[socket.id].canvas.page[page].layer[layer].x; // size 
-  var ctemp = canvasData.canvas[socket.id].canvas.page[page].layer[layer].x; // colour
+  var xtemp = canvasData.canvas[socket.id].page[pageNumber].layer[layer].x; // X axis
+  var ytemp = canvasData.canvas[socket.id].page[pageNumber].layer[layer].y; // Y axis
+  var atemp = canvasData.canvas[socket.id].canvas.page[pageNumber].layer[layer].x; // action
+  var stemp = canvasData.canvas[socket.id].canvas.page[pageNumber].layer[layer].x; // size
+  var ctemp = canvasData.canvas[socket.id].canvas.page[pageNumber].layer[layer].x; // colour
   xtemp.push(x);
   ytemp.push(y);
   atemp.push(saveShape);
   stemp.push(2);
   ctemp.push("black");
-  canvasData.canvas[socket.id].page[page].layer[layer].x = xtemp; // X axis
-  canvasData.canvas[socket.id].page[page].layer[layer].y = ytemp; // Y axis
-  canvasData.canvas[socket.id].page[page].layer[layer].a = atemp; // action
-  canvasData.canvas[socket.id].page[page].layer[layer].s = stemp; // size 
-  canvasData.canvas[socket.id].page[page].layer[layer].c = ctemp; // colour
+  canvasData.canvas[socket.id].page[pageNumber].layer[layer].x = xtemp; // X axis
+  canvasData.canvas[socket.id].page[pageNumber].layer[layer].y = ytemp; // Y axis
+  canvasData.canvas[socket.id].page[pageNumber].layer[layer].a = atemp; // action
+  canvasData.canvas[socket.id].page[pageNumber].layer[layer].s = stemp; // size
+  canvasData.canvas[socket.id].page[pageNumber].layer[layer].c = ctemp; // colour
 
   console.log("JsonFile: " + JSON.stringify(canvasData));
 
@@ -204,9 +205,28 @@ function initCANVAS() {
   //canvasData.canvas[socket.id] = {"page":{ "1":{"layers":{"1":{}}}}};
   console.log("JsonFile: " + JSON.stringify(canvasData));
 
-  canvasData.canvas[socket.id].page[page].layer[layer].x = []; // X axis
-  canvasData.canvas[socket.id].page[page].layer[layer].y = []; // Y axis
-  canvasData.canvas[socket.id].page[page].layer[layer].a = []; // action
-  canvasData.canvas[socket.id].page[page].layer[layer].s = []; // size 
-  canvasData.canvas[socket.id].page[page].layer[layer].c = []; // colour
+  
+
+  canvasData = {"canvas":[]};
+
+  if(!socket.id == undefined)
+  {
+    nam = "" + socket.id;
+  } else
+   {
+    nam = "idlocalhost";
+  }
+
+  console.log("Canvas Name is:" + nam);
+  console.log("page = :" + pageNumber);
+
+  console.log("JsonFile: " + JSON.stringify(canvasData));
+
+  canvasData.canvas = {nam:[]}; // X axis
+  //canvasData.canvas[nam].page[pageNumber].layer[layer].y = []; // Y axis
+  //canvasData.canvas[nam].page[pageNumber].layer[layer].a = []; // action
+  //canvasData.canvas[nam].page[pageNumber].layer[layer].s = []; // size
+  //canvasData.canvas[nam].page[pageNumber].layer[layer].c = []; // colour
+
+  console.log("JsonFile: " + JSON.stringify(canvasData));
 }

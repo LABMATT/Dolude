@@ -11,7 +11,7 @@
 <meta name="mobile-web-app-capable" Content="yes">
 
   <script src="socket.io/dist/socket.io.js"></script>
-  <script>const socket = io("http://10.0.0.245:3000");</script>
+  <script>const socket = io("http://10.0.0.254:3000");</script>
   <script type="text/javascript" src="scripts/windowResize.js"></script>
   <script type="text/javascript" src="scripts/init.js"></script>
   <script type="text/javascript" src="scripts/darwManger.js"></script>
@@ -22,7 +22,7 @@
   <script type="text/javascript" src="scripts/nearestPointUI.js"></script>
   <script type="text/javascript" src="scripts/coludeManger.js"></script>
   <script type="text/javascript" src="scripts/shortcutManger.js"></script>
-  
+
 </head>
 
 <body scroll="no" onresize="resize()" onload="init()">
@@ -36,7 +36,7 @@
     <h1>Host a session! <br>Dolude is better with friends!</h1>
     <h3>Start a session to get started.</h3>
     <h5> 1) Make host name. <br> 2) make password. <br> 3) friends can ctl + J enter both host and password</h5>
- 
+
     <label for="uname"><b>Host Name</b></label>
     <input type="text" placeholder="Enter A Host Name!" id="uname" required>
 
@@ -53,7 +53,7 @@
     <h1>Join a session! <br>Dolude is better with friends!</h1>
     <h3>Join a session to get started.</h3>
     <h5> 1) Enter your firends host name. <br> 2) Enter you friends password. <br> 3) ctl + H to host your own session.</h5>
- 
+
     <label for="joinname"><b>Your Hosts Name</b></label>
     <input type="text" placeholder="Enter Your Hosts Name!" id="joinname" required>
 
