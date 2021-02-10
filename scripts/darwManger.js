@@ -202,31 +202,56 @@ function canvasBacking() {
 function initCANVAS() {
   console.log("getting canvas ready");
 
+  /*
   //canvasData.canvas[socket.id] = {"page":{ "1":{"layers":{"1":{}}}}};
   console.log("JsonFile: " + JSON.stringify(canvasData));
 
   
 
-  canvasData = {"canvas":[]};
+  canvasData = {"canvas":{"idlocalhost":{"page":{"1":{"x":[]}}}}};
 
-  if(!socket.id == undefined)
-  {
-    nam = "" + socket.id;
-  } else
-   {
-    nam = "idlocalhost";
-  }
-
-  console.log("Canvas Name is:" + nam);
   console.log("page = :" + pageNumber);
 
   console.log("JsonFile: " + JSON.stringify(canvasData));
 
-  canvasData.canvas = {nam:[]}; // X axis
-  //canvasData.canvas[nam].page[pageNumber].layer[layer].y = []; // Y axis
+  canvasData.canvas["idlocalhost"].page["1"].layer[layer].y = []; // Y axis
   //canvasData.canvas[nam].page[pageNumber].layer[layer].a = []; // action
   //canvasData.canvas[nam].page[pageNumber].layer[layer].s = []; // size
   //canvasData.canvas[nam].page[pageNumber].layer[layer].c = []; // colour
 
   console.log("JsonFile: " + JSON.stringify(canvasData));
+  */
+
+  // cdt(cd) > user(localuser) > canvasNum(1) > layers(1) > x  
+
+  // Define a new object, input a name for this object (also name of a node). We can then add decendents to it later.
+  const cdt = new DataStructure("cdt"); // Canvas data tree
+  const user = new DataStructure("localUser");
+  const canvasNum = new DataStructure("1");
+  const layers = new DataStructure("1");
+  const tx = new DataStructure("x");
+  const ty = new DataStructure("y");
+
+  cdt.child.push(user);
+  user.child.push(canvasNum);
+  canvasNum.child.push(layers);
+  layers.child.push(tx);
+  layers.child.push(ty);
+
+  console.log("Tree value: " + cdt.name.find[0]);
+}
+
+class DataStructure {
+
+  // Constuctor exacutes on object creation
+  constructor(name) 
+  {
+      this.name = name;
+      this.child = [];
+  }
+
+  climbTree()
+  {
+      
+  }
 }
