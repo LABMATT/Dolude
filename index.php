@@ -22,6 +22,8 @@
   <script type="text/javascript" src="scripts/nearestPointUI.js"></script>
   <script type="text/javascript" src="scripts/coludeManger.js"></script>
   <script type="text/javascript" src="scripts/shortcutManger.js"></script>
+  <script type="text/javascript" src="scripts/DataStructure.js"></script>
+  
 
 </head>
 

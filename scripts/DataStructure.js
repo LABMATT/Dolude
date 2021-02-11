@@ -7,8 +7,8 @@ class DataStructure {
         this.child = [];
     }
 
-    climbTree()
+    getChild()
     {
-        
+      return this.child.toString();
     }
 }

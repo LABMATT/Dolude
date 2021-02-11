@@ -28,6 +28,8 @@ var rpAS = []; // Shape type
 var rpAW = []; // Shape width
 var rpAC = []; // Shape colour
 
+
+// This function is triggered if this is a new line, mouse just touched paper, fresh.
 function mouseXY(fresh)
 {
   var x = event.clientX;
@@ -35,6 +37,7 @@ function mouseXY(fresh)
  drawPoint(x,y, fresh);
 }
 
+// This function is triggered if this is a new line, finger just touched paper, fresh. 
 function fingerXY(fresh)
 {
 
@@ -44,14 +47,15 @@ function fingerXY(fresh)
 
 }
 
+// Draw point handels main canvas drawing. Takes the canvas, adds new points and old ones.
 function drawPoint(x, y, fresh)
 {
   var canvas = document.getElementById("myCanvas");
   var ctx = canvas.getContext("2d");
   var submittShape  = "line"
 
-  console.log("fresh is: " + fresh)
 
+  // If this is a new point, add part
   if(fresh == true)
   {
     addPart();
@@ -101,25 +105,6 @@ function savePoints(x, y, saveShape, saveWidth, saveColour) {
   //var part = sessionsJson.session[hostID].participants;
   //part.push(socket.id);
   //sessionsJson.session[hostID].participants = part;
-  console.log("JsonFile: " + JSON.stringify(canvasData));
-
-  var xtemp = canvasData.canvas[socket.id].page[pageNumber].layer[layer].x; // X axis
-  var ytemp = canvasData.canvas[socket.id].page[pageNumber].layer[layer].y; // Y axis
-  var atemp = canvasData.canvas[socket.id].canvas.page[pageNumber].layer[layer].x; // action
-  var stemp = canvasData.canvas[socket.id].canvas.page[pageNumber].layer[layer].x; // size
-  var ctemp = canvasData.canvas[socket.id].canvas.page[pageNumber].layer[layer].x; // colour
-  xtemp.push(x);
-  ytemp.push(y);
-  atemp.push(saveShape);
-  stemp.push(2);
-  ctemp.push("black");
-  canvasData.canvas[socket.id].page[pageNumber].layer[layer].x = xtemp; // X axis
-  canvasData.canvas[socket.id].page[pageNumber].layer[layer].y = ytemp; // Y axis
-  canvasData.canvas[socket.id].page[pageNumber].layer[layer].a = atemp; // action
-  canvasData.canvas[socket.id].page[pageNumber].layer[layer].s = stemp; // size
-  canvasData.canvas[socket.id].page[pageNumber].layer[layer].c = ctemp; // colour
-
-  console.log("JsonFile: " + JSON.stringify(canvasData));
 
   pAX.push(x);
   pAY.push(y);
@@ -198,29 +183,10 @@ function canvasBacking() {
   ctx.fill();
 }
 
+
 // Sets up the canvas json
 function initCANVAS() {
   console.log("getting canvas ready");
-
-  /*
-  //canvasData.canvas[socket.id] = {"page":{ "1":{"layers":{"1":{}}}}};
-  console.log("JsonFile: " + JSON.stringify(canvasData));
-
-  
-
-  canvasData = {"canvas":{"idlocalhost":{"page":{"1":{"x":[]}}}}};
-
-  console.log("page = :" + pageNumber);
-
-  console.log("JsonFile: " + JSON.stringify(canvasData));
-
-  canvasData.canvas["idlocalhost"].page["1"].layer[layer].y = []; // Y axis
-  //canvasData.canvas[nam].page[pageNumber].layer[layer].a = []; // action
-  //canvasData.canvas[nam].page[pageNumber].layer[layer].s = []; // size
-  //canvasData.canvas[nam].page[pageNumber].layer[layer].c = []; // colour
-
-  console.log("JsonFile: " + JSON.stringify(canvasData));
-  */
 
   // cdt(cd) > user(localuser) > canvasNum(1) > layers(1) > x  
 
@@ -238,20 +204,5 @@ function initCANVAS() {
   layers.child.push(tx);
   layers.child.push(ty);
 
-  console.log("Tree value: " + cdt.name.find[0]);
-}
-
-class DataStructure {
-
-  // Constuctor exacutes on object creation
-  constructor(name) 
-  {
-      this.name = name;
-      this.child = [];
-  }
-
-  climbTree()
-  {
-      
-  }
+  console.log("Tree value: " + ty.getChild());
 }
