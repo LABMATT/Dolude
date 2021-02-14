@@ -47,6 +47,9 @@ function fingerXY(fresh)
 
 }
 
+
+
+
 // Draw point handels main canvas drawing. Takes the canvas, adds new points and old ones.
 function drawPoint(x, y, fresh)
 {
@@ -89,6 +92,9 @@ savePoints(x, y, submittShape, 20, 'black');
   ly = y;
 }
 
+
+
+
 // Adds what other people have drawn to your drawing.
 function addPart()
 {
@@ -99,6 +105,9 @@ function addPart()
   rpAY = [];
   rpAS = [];
 }
+
+
+
 
 function savePoints(x, y, saveShape, saveWidth, saveColour) {
 
@@ -130,6 +139,7 @@ function savePoints(x, y, saveShape, saveWidth, saveColour) {
     spAC = [];
   }
 }
+
 
 
 //#### Redraws the canvas from array ####
@@ -184,25 +194,15 @@ function canvasBacking() {
 }
 
 
+
 // Sets up the canvas json
 function initCANVAS() {
   console.log("getting canvas ready");
 
   // cdt(cd) > user(localuser) > canvasNum(1) > layers(1) > x  
+  
+  const ds = new DataStructure();
+  ds.newPage();
 
-  // Define a new object, input a name for this object (also name of a node). We can then add decendents to it later.
-  const cdt = new DataStructure("cdt"); // Canvas data tree
-  const user = new DataStructure("localUser");
-  const canvasNum = new DataStructure("1");
-  const layers = new DataStructure("1");
-  const tx = new DataStructure("x");
-  const ty = new DataStructure("y");
-
-  cdt.child.push(user);
-  user.child.push(canvasNum);
-  canvasNum.child.push(layers);
-  layers.child.push(tx);
-  layers.child.push(ty);
-
-  console.log("Tree value: " + ty.getChild());
+  ds.getpage(0);
 }
