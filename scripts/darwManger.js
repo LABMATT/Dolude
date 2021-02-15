@@ -2,10 +2,8 @@ var lx, ly;
 var size = 2;
 
 // What layer and page were currently drawing on. Canvas data stores all the data of the drawing.
-var pageNumber = 1;
-var layer = 1;
-var canvasData;
-var nam = "";
+var currentPage = 0;
+var currentLayer = 0;
 
 // Points Arrys
 var pAX = []; // X cordiante
@@ -14,19 +12,7 @@ var pAS = []; // Shape type
 var pAW = []; // Shape width
 var pAC = []; // Shape colour
 
-// NETWORK Arrys
-var spAX = []; // X cordiante
-var spAY = []; // Y cordainte
-var spAS = []; // Shape type
-var spAW = []; // Shape width
-var spAC = []; // Shape colour
-
-// RECIVED Arrys
-var rpAX = []; // X cordiante
-var rpAY = []; // Y cordainte
-var rpAS = []; // Shape type
-var rpAW = []; // Shape width
-var rpAC = []; // Shape colour
+var ds;
 
 
 // This function is triggered if this is a new line, mouse just touched paper, fresh.
@@ -44,7 +30,6 @@ function fingerXY(fresh)
   var x = event.touches[0].clientX;
   var y = event.touches[0].clientY;
   drawPoint(x,y, fresh);
-
 }
 
 
@@ -57,11 +42,12 @@ function drawPoint(x, y, fresh)
   var ctx = canvas.getContext("2d");
   var submittShape  = "line"
 
+  ds.getPage(0).getLayer(0).addVector(x, y, fresh);  
+
 
   // If this is a new point, add part
   if(fresh == true)
   {
-    addPart();
     lx = x;
     ly = y;
     fresh = false;
@@ -94,26 +80,7 @@ savePoints(x, y, submittShape, 20, 'black');
 
 
 
-
-// Adds what other people have drawn to your drawing.
-function addPart()
-{
-  pAX = pAX.concat(rpAX);
-  pAY = pAY.concat(rpAY);
-  pAS = pAS.concat(rpAS);
-  rpAX = [];
-  rpAY = [];
-  rpAS = [];
-}
-
-
-
-
 function savePoints(x, y, saveShape, saveWidth, saveColour) {
-
-  //var part = sessionsJson.session[hostID].participants;
-  //part.push(socket.id);
-  //sessionsJson.session[hostID].participants = part;
 
   pAX.push(x);
   pAY.push(y);
@@ -121,23 +88,6 @@ function savePoints(x, y, saveShape, saveWidth, saveColour) {
   pAW.push(saveWidth);
   pAC.push(saveColour);
 
-
-  spAX.push(x);
-  spAY.push(y);
-  spAS.push(saveShape);
-  spAW.push(saveWidth);
-  spAC.push(saveColour);
-
-  if(saveShape == "move")
-  {
-    dispachCanvasUpdate();
-
-    spAX = [];
-    spAY = [];
-    spAS = [];
-    spAW = [];
-    spAC = [];
-  }
 }
 
 
@@ -156,11 +106,12 @@ function redrawCanvas() {
   ctx.lineCap = 'round';
   ctx.lineWidth = size;
 
-    console.log("Starting Redraw Loop.");
-var i = 1;
-while(i < pAX.length)
+  console.log("Starting Redraw Loop.");
+
+  var i = 1;
+  while(i < pAX.length)
 {
-switch(pAS[i])
+  switch(pAS[i])
 {
   case "line":
   ctx.moveTo(pAX[i-1], pAY[i-1]);
@@ -201,8 +152,6 @@ function initCANVAS() {
 
   // cdt(cd) > user(localuser) > canvasNum(1) > layers(1) > x  
   
-  const ds = new DataStructure();
-  ds.newPage();
-
-  ds.getpage(0);
+  ds = new DataStructure();
+  ds.newPage().newLayer();
 }
