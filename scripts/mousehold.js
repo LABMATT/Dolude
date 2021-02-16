@@ -27,7 +27,6 @@ if(e.button == 0 && menuActive == false)
 {
   click = true;
   mouseXY(true);
-  console.log("Mouse down");
 }
 }
 }
@@ -36,7 +35,6 @@ if(e.button == 0 && menuActive == false)
 function mouseEnd()
 {
   click = false;
-  console.log("Mouse ups");
 }
 
 
@@ -45,27 +43,24 @@ if(menuActive == false)
 {
 click = true;
 fingerXY(true);
-console.log("finger down");
 }
 }
 
 function touchEnd()
 {
   click = false;
-  console.log("finger ups");
 }
 
 
 //Get the movment of the finger or mouse.
 function getMouseCor() {
 
-  console.log("mouse moved: " + click);
 
 if (click == true)
 {
   if(menuActive == false)
   {
-console.log("caling darw");
+
 mouseXY(false);
 } else {
   mouseEnd();
@@ -75,13 +70,11 @@ mouseXY(false);
 
 function touchCor()
 {
-  console.log("touch moved: " + click);
 
 if (click == true)
 {
   if(menuActive == false)
   {
-console.log("caling darw");
 fresh = false;
 fingerXY(false);
 } else {

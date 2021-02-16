@@ -1,4 +1,3 @@
-var lx, ly;
 var size = 2;
 
 // What layer and page were currently drawing on. Canvas data stores all the data of the drawing.
@@ -42,22 +41,23 @@ function drawPoint(x, y, fresh)
   var ctx = canvas.getContext("2d");
   var submittShape  = "line"
 
-  ds.getPage(0).getLayer(0).addVector(x, y, fresh);  
+  ds.getPage(currentPage).getLayer(currentLayer);  
 
 
-  // If this is a new point, add part
+  // If this is a new point, set the old x and old y to the current xy values. this means no line is drawn to previos line.
   if(fresh == true)
   {
-    lx = x;
-    ly = y;
+    ds.getPage(currentPage).getLayer(currentLayer).lx = x;
+    ds.getPage(currentPage).getLayer(currentLayer).ly = y;
+    
     fresh = false;
     submittShape = "move";
   }
 
-if(lx == null && ly == null)
+if(ds.getPage(currentPage).getLayer(currentLayer).lx == null && ds.getPage(currentPage).getLayer(currentLayer).ly == null)
 {
-  lx = x;
-  ly = y;
+  ds.getPage(currentPage).getLayer(currentLayer).lx = x;
+  ds.getPage(currentPage).getLayer(currentLayer).ly = y;
 }
 
 savePoints(x, y, submittShape, 20, 'black');
@@ -66,7 +66,7 @@ savePoints(x, y, submittShape, 20, 'black');
   ctx.lineCap = 'round';
   ctx.lineWidth = size;
 
-  ctx.moveTo(lx,ly);
+  ctx.moveTo(ds.getPage(currentPage).getLayer(currentLayer).lx, ds.getPage(currentPage).getLayer(currentLayer).ly);
   ctx.lineTo(x,y);
 
   ctx.fillStyle = 'black';
@@ -74,20 +74,19 @@ savePoints(x, y, submittShape, 20, 'black');
   ctx.stroke();
   ctx.closePath();
 
-  lx = x;
-  ly = y;
+  ds.getPage(currentPage).getLayer(currentLayer).lx = x;
+  ds.getPage(currentPage).getLayer(currentLayer).ly = y;
 }
 
 
 
 function savePoints(x, y, saveShape, saveWidth, saveColour) {
 
-  pAX.push(x);
-  pAY.push(y);
-  pAS.push(saveShape);
-  pAW.push(saveWidth);
-  pAC.push(saveColour);
-
+  ds.getPage(currentPage).getLayer(currentLayer).pAX.push(x);
+  ds.getPage(currentPage).getLayer(currentLayer).pAY.push(y);  
+  ds.getPage(currentPage).getLayer(currentLayer).pAS.push(saveShape);  
+  ds.getPage(currentPage).getLayer(currentLayer).pAW.push(saveWidth);
+  ds.getPage(currentPage).getLayer(currentLayer).pAC.push(saveColour);      
 }
 
 
@@ -107,6 +106,8 @@ function redrawCanvas() {
   ctx.lineWidth = size;
 
   console.log("Starting Redraw Loop.");
+
+  loadArrayPoints();
 
   var i = 1;
   while(i < pAX.length)
@@ -134,6 +135,7 @@ function redrawCanvas() {
 
 
 
+
 function canvasBacking() {
   var canvas = document.getElementById("myCanvas");
   var ctx = canvas.getContext("2d");
@@ -142,6 +144,24 @@ function canvasBacking() {
   ctx.rect(0, 0, 1000, 1000);
   ctx.fillStyle = "blue";
   ctx.fill();
+}
+
+function changePage(lipage) {
+  currentPage = lipage;
+  console.log("Changing page to: " + currentPage)
+
+  loadArrayPoints();
+  redrawCanvas();
+}
+
+function loadArrayPoints()
+{
+
+pAX = ds.getPage(currentPage).getLayer(currentLayer).pAX; // X cordiante
+pAY = ds.getPage(currentPage).getLayer(currentLayer).pAY; // Y cordainte
+pAS = ds.getPage(currentPage).getLayer(currentLayer).pAS; // Shape type
+pAW = ds.getPage(currentPage).getLayer(currentLayer).pAW; // Shape width
+pAC = ds.getPage(currentPage).getLayer(currentLayer).pAC; // Shape colour
 }
 
 
@@ -153,5 +173,5 @@ function initCANVAS() {
   // cdt(cd) > user(localuser) > canvasNum(1) > layers(1) > x  
   
   ds = new DataStructure();
-  ds.newPage().newLayer();
 }
+

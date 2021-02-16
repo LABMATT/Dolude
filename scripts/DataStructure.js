@@ -21,9 +21,9 @@ class DataStructure {
     // Get the page from the number then get object and info.
     getPage(pageNumber)
     {
-      if(pageNumber > this.pages.length)
+      if(pageNumber > this.pages.length || pageNumber == this.pages.length)
       {
-        
+        console.log("no page found, amking a new one");
         return this.newPage();
       } else{
 
@@ -60,18 +60,18 @@ class pageClass {
       this.layerCount++;
       this.layers.push(new layerClass(this.layerCount));
       console.log("New layer in array are: " + this.layers.toString());
+      return this.layers[this.layerCount];
     }
 
     getLayer(layerNumber)
     {
-      if(layerNumber > this.layers.length)
+      if(layerNumber > this.layers.length || layerNumber == this.layers.length)
       {
         console.log("no Layer foudn!")
         return this.newLayer();
       }
       else{
 
-        console.log("layerFOund");
         return this.layers[layerNumber];
       } 
     }
@@ -89,19 +89,20 @@ class pageClass {
           this.ly = 0;
 
 
-          this.x = [];
-          this.y = [];
-          this.z = [];
+          // Points Arrys
+          this.pAX = []; // X cordiante
+          this.pAY = []; // Y cordainte
+          this.pAS = []; // Shape type
+          this.pAW = []; // Shape width
+          this.pAC = []; // Shape colour
+
           this.hexColour = []; // 0 = no colour, hex code = colour, 1 = previos colour
 
 
       }
 
-      // Add the new vectors to that array.
-      addVector(x, y, fresh)
-      {
 
-      }
+
 
       // The last x y cordinate form the mouse, If not a fresh line the draw line from this to new cordinat. If fresh then will be same as current.
       lastXY(x, y)
