@@ -34,6 +34,18 @@ function downTrigger(e)
         e.preventDefault();
         e.stopPropagation();
     }
+    else if(keycode == "KeyS" && ctl == true)
+    {
+        saveDrawing();
+        e.preventDefault();
+        e.stopPropagation();
+    }
+    else if(keycode == "KeyO" && ctl == true)
+    {
+        submitLoadDrawing();
+        e.preventDefault();
+        e.stopPropagation();
+    }
 }
 
 

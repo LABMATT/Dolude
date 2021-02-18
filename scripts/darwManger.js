@@ -3,13 +3,8 @@ var size = 2;
 // What layer and page were currently drawing on. Canvas data stores all the data of the drawing.
 var currentPage = 0;
 var currentLayer = 0;
-
-// Points Arrys
-var pAX = []; // X cordiante
-var pAY = []; // Y cordainte
-var pAS = []; // Shape type
-var pAW = []; // Shape width
-var pAC = []; // Shape colour
+var colour = "white";
+var disabledLayers = [];
 
 var ds;
 
@@ -32,61 +27,40 @@ function fingerXY(fresh)
 }
 
 
-
-
-// Draw point handels main canvas drawing. Takes the canvas, adds new points and old ones.
 function drawPoint(x, y, fresh)
 {
-  var canvas = document.getElementById("myCanvas");
-  var ctx = canvas.getContext("2d");
-  var submittShape  = "line"
-
-  ds.getPage(currentPage).getLayer(currentLayer);  
-
-
-  // If this is a new point, set the old x and old y to the current xy values. this means no line is drawn to previos line.
+  var lx = 0, ly = 0;
+  
   if(fresh == true)
   {
-    ds.getPage(currentPage).getLayer(currentLayer).lx = x;
-    ds.getPage(currentPage).getLayer(currentLayer).ly = y;
-    
-    fresh = false;
-    submittShape = "move";
+
+    ds.getPage(currentPage).getLayer(currentLayer).newStroke(colour);
+    ds.getPage(currentPage).getLayer(currentLayer).setStroke(x, y);
+
+    lx = x;
+    ly = y;
+  } else{
+
+    lx = ds.getPage(currentPage).getLayer(currentLayer).getLatestStroke().getLX();
+    ly = ds.getPage(currentPage).getLayer(currentLayer).getLatestStroke().getLY();
+    ds.getPage(currentPage).getLayer(currentLayer).setStroke(x, y);
   }
 
-if(ds.getPage(currentPage).getLayer(currentLayer).lx == null && ds.getPage(currentPage).getLayer(currentLayer).ly == null)
-{
-  ds.getPage(currentPage).getLayer(currentLayer).lx = x;
-  ds.getPage(currentPage).getLayer(currentLayer).ly = y;
-}
-
-savePoints(x, y, submittShape, 20, 'black');
+  var canvas = document.getElementById("myCanvas");
+  var ctx = canvas.getContext("2d");
 
   ctx.beginPath();
   ctx.lineCap = 'round';
   ctx.lineWidth = size;
-
-  ctx.moveTo(ds.getPage(currentPage).getLayer(currentLayer).lx, ds.getPage(currentPage).getLayer(currentLayer).ly);
-  ctx.lineTo(x,y);
+  ctx.strokeStyle = colour;
+  ctx.moveTo(lx, ly);
+  ctx.lineTo(x, y);
+  
 
   ctx.fillStyle = 'black';
-  ctx.fill();
   ctx.stroke();
+  ctx.fill();
   ctx.closePath();
-
-  ds.getPage(currentPage).getLayer(currentLayer).lx = x;
-  ds.getPage(currentPage).getLayer(currentLayer).ly = y;
-}
-
-
-
-function savePoints(x, y, saveShape, saveWidth, saveColour) {
-
-  ds.getPage(currentPage).getLayer(currentLayer).pAX.push(x);
-  ds.getPage(currentPage).getLayer(currentLayer).pAY.push(y);  
-  ds.getPage(currentPage).getLayer(currentLayer).pAS.push(saveShape);  
-  ds.getPage(currentPage).getLayer(currentLayer).pAW.push(saveWidth);
-  ds.getPage(currentPage).getLayer(currentLayer).pAC.push(saveColour);      
 }
 
 
@@ -94,56 +68,82 @@ function savePoints(x, y, saveShape, saveWidth, saveColour) {
 //#### Redraws the canvas from array ####
 function redrawCanvas() {
 
-  console.log("redrawn!");
+  var canvas = document.getElementById("myCanvas");
+  var ctx = canvas.getContext("2d");
+
+  //ctx.clearRect(0, 0, canvas.width, canvas.height);
+  ctx.beginPath();
+  ctx.rect(0, 0, canvas.width, canvas.height);
+  ctx.fillStyle = ds.getPage(currentPage).pageColour;
+  ctx.fill();
+  ctx.closePath();
+
+
+  //layer count
+  var lrc = ds.getPage(currentPage).getLayerNumbers();
+  var dlr = false;
+  console.log("the amout of layers is: " + lrc);
+
+  // cycle though each layer, check if layer is disabled, if its not draw it!. if it is skip it.
+  for(var i = 0; i < lrc; i++)
+  {
+    // Check if the layer is disalbed
+   disabledLayers.forEach(element => {
+     if(element == i)
+     {
+       dlr = true;
+     }
+   }); 
+   
+   // If layer is not disabled, then set current layer to that and reday canvas
+   if(dlr == false)
+   {
+     redraw(i);
+   } else{
+     console.log("mot redrawing thjis layer cus disabled");
+    dlr = false;
+   }
+  }
+}
+
+
+function redraw(lr) {
+  console.log("redrawn layer: " + lr);
 
   var canvas = document.getElementById("myCanvas");
   var ctx = canvas.getContext("2d");
 
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  console.log("Starting Redraw Loop.");
 
+  ds.getPage(currentPage).getLayer(lr).getStrokes().forEach(vectorOhYeah => {
+    
   ctx.beginPath();
   ctx.lineCap = 'round';
   ctx.lineWidth = size;
+  ctx.strokeStyle = vectorOhYeah.colour;
 
-  console.log("Starting Redraw Loop.");
+  var x = vectorOhYeah.xvec;
+  var y = vectorOhYeah.yvec;
 
-  loadArrayPoints();
-
-  var i = 1;
-  while(i < pAX.length)
-{
-  switch(pAS[i])
-{
-  case "line":
-  ctx.moveTo(pAX[i-1], pAY[i-1]);
-  ctx.lineTo(pAX[i], pAY[i]);
-  break;
-
-  case "move":
-  ctx.moveTo(pAX[i], pAY[i]);
-  break;
-}
-    i++;
-}
-    console.log("Finished Redraw Loop.");
+  for(var i = 0; i < x.length; i++)
+  {
+    ctx.moveTo(x[i], y[i]);
+    ctx.lineTo(x[i + 1], y[i + 1]);
+  }
 
   ctx.fillStyle = 'black';
   ctx.fill();
   ctx.stroke();
   ctx.closePath();
+  });
 }
 
 
+// Set the colour of the current canvas to colour.
+function canvasBacking(colour) {
 
-
-function canvasBacking() {
-  var canvas = document.getElementById("myCanvas");
-  var ctx = canvas.getContext("2d");
-
-  ctx.beginPath();
-  ctx.rect(0, 0, 1000, 1000);
-  ctx.fillStyle = "blue";
-  ctx.fill();
+  ds.getPage(currentPage).pageColour = colour;
+  redrawCanvas();
 }
 
 function changePage(lipage) {
@@ -154,16 +154,99 @@ function changePage(lipage) {
   redrawCanvas();
 }
 
-function loadArrayPoints()
+function changeLayer(lr)
 {
+  currentLayer = lr;
+  console.log("now editing layer: " + lr)
 
-pAX = ds.getPage(currentPage).getLayer(currentLayer).pAX; // X cordiante
-pAY = ds.getPage(currentPage).getLayer(currentLayer).pAY; // Y cordainte
-pAS = ds.getPage(currentPage).getLayer(currentLayer).pAS; // Shape type
-pAW = ds.getPage(currentPage).getLayer(currentLayer).pAW; // Shape width
-pAC = ds.getPage(currentPage).getLayer(currentLayer).pAC; // Shape colour
+  redrawCanvas();
 }
 
+function enableLayer(lr)
+{
+disabledLayers.splice(disabledLayers.indexOf(lr), 1);
+redrawCanvas();
+}
+
+function disableLayer(lr)
+{
+disabledLayers.push(lr);
+redrawCanvas();
+}
+
+
+// When shortcutmanger gets  ctl+s it calls this event to save canvas.
+// Loop grabs each page, saves data as json, then grabs each layer and saves data as json, adds to string then writes to file.
+function saveDrawing()
+{
+  console.log("saving file%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%");
+  var save = "";
+  
+  ds.pages.forEach(element => {
+
+    save += ";" + JSON.stringify(element.pageData());
+    console.log("doing a page");
+    
+    element.layers.forEach(lyr => {
+
+      console.log("my returned data was: " + JSON.stringify(lyr.getDataArray()))
+      save += + JSON.stringify(lyr.getDataArray());
+      console.log("doing a layer");
+    });
+  });
+
+  console.log("save data is: " + save);
+
+    var a = document.createElement("a");
+    var file = new Blob([save]);
+    a.href = URL.createObjectURL(file);
+    a.download = "myDrawing.dolude";
+    a.click();
+}
+
+
+
+
+// Submit the input tag, this is picked up by a listener that load the json file in
+function submitLoadDrawing()
+{
+  document.getElementById("upload").click();
+}
+
+
+// Once upload element is submitted it calls this function. This reads the file and begins loading all the data back into the main data structre.
+function loadDrawing()
+{
+  let file = upload.files[0];
+
+  let reader = new FileReader();
+
+  reader.readAsText(file);
+
+  reader.onload = function() {
+    console.log(reader.result);
+    
+    var splitInteral = reader.result.split(';');
+    splitInteral.forEach(page => {
+      console.log("page element: " + page);
+      if(page.size != 0)
+      {
+      var layer = page.replace(";","").split('{');
+      layer.forEach(element => {
+        console.log("retuned element: " + element);
+        console.log("retuned json was: " + JSON.parse(element));
+        console.log("/n");
+      });
+
+      }
+
+    });
+  };
+
+  reader.onerror = function() {
+    console.log(reader.error);
+  };
+}
 
 
 // Sets up the canvas json

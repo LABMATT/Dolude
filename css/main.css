@@ -54,3 +54,8 @@ user-select: none;
   display: flex;
   justify-content: center;
 }
+
+#upload {
+  visibility: hidden;
+  display: none;
+}

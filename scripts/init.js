@@ -1,10 +1,8 @@
 function init()
 {
-console.log("INIT");
 initCANVAS();
-console.log("we lived thoguht that");
 //savePoints();
-resize();
+resize(); 
 disableRightMenu();
 mousehold();
 startMenu();

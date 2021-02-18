@@ -26,8 +26,8 @@
   
 
 </head>
-
 <body scroll="no" onresize="resize()" onload="init()">
+<input id="upload" type="file" onchange="loadDrawing(this)">
 
 <!-- Main Canvas -->
   <canvas id="myCanvas" width="1" height="1">Your browser does not support the HTML canvas tag. You also need javascript enabled!</canvas>

@@ -30,6 +30,14 @@ class DataStructure {
         return this.pages[pageNumber];
       }
     }
+
+
+
+    // Returns how many pages are currently active.
+    getNumberPages()
+    {
+      return this.pages.length;
+    }
 }
 
 
@@ -41,10 +49,26 @@ class pageClass {
     {
       console.log("newpage Number is: " + number)
       this.number = number;
-      this.pageName = "Page " + number;
+      this.pageName = "Page-" + number;
+      this.pageColour = "white";
 
       this.layerCount = -1;
       this.layers = [];
+    }
+
+    changePageColour(colour)
+    {
+      this.pageColour = colour;
+    }
+
+    pageData()
+    {
+      var pageData = {
+        "pageNumber":this.number,
+        "pageName": this.pageName
+      }
+
+      return pageData;
     }
 
     // Change the page number.
@@ -58,11 +82,12 @@ class pageClass {
     newLayer()
     {
       this.layerCount++;
-      this.layers.push(new layerClass(this.layerCount));
+      this.layers.push(new layerClass(this.layerCount, this.number));
       console.log("New layer in array are: " + this.layers.toString());
       return this.layers[this.layerCount];
     }
 
+    // Gets a layer by that number, one one does not exist, creates new page.
     getLayer(layerNumber)
     {
       if(layerNumber > this.layers.length || layerNumber == this.layers.length)
@@ -75,30 +100,53 @@ class pageClass {
         return this.layers[layerNumber];
       } 
     }
+
+
+    getLayerNumbers()
+    {
+      return this.layers.length;
+    }
   }
 
   class layerClass {
       
     // Setup new layer with layer number, layer name and the cordiance for the drawing aspects.
-      constructor(layer)
+      constructor(layer, page)
       {
           this.layerNumber = layer;
           this.layerName = "Layer-" + layer;
+          this.perentPage = page;
 
-          this.lx = 0;
-          this.ly = 0;
-
-
-          // Points Arrys
-          this.pAX = []; // X cordiante
-          this.pAY = []; // Y cordainte
-          this.pAS = []; // Shape type
-          this.pAW = []; // Shape width
-          this.pAC = []; // Shape colour
-
-          this.hexColour = []; // 0 = no colour, hex code = colour, 1 = previos colour
+          this.strokeArray = [];
 
 
+      }
+
+      
+
+      // Create new stroke in the array.
+      newStroke(colour)
+      {
+        this.strokeArray.push(new userStroke(colour, 2));
+      }
+
+
+
+      setStroke(x, y)
+      {
+
+        this.strokeArray[this.strokeArray.length - 1].setNode(x, y);
+      }
+
+      getLatestStroke()
+      {
+
+        return this.strokeArray[this.strokeArray.length - 1];       
+      }
+
+      getStrokes()
+      {
+        return this.strokeArray;
       }
 
 
@@ -122,10 +170,41 @@ class pageClass {
         return this.ly;
       }
 
-
       // Get the newly drawn vector and simply all the extra drawn bits into a smaller vector. This saves drawing time and makes a smoother line.
       refactorVector()
       {
 
       }
+  }
+
+
+// Each stroke 
+  class userStroke
+  {
+    constructor(clr, sz)
+    {
+      console.log("colour is: " + colour);
+      this.colour = clr;
+      this.xvec = [];
+      this.yvec = [];
+      this.size = sz;
+    }
+
+    setNode(x, y)
+    {
+      this.xvec.push(x);
+      this.yvec.push(y);
+    }
+
+
+    getLX()
+    {
+      return this.xvec[this.xvec.length - 1];
+    }
+
+    getLY()
+    {
+      return this.yvec[this.yvec.length - 1];
+    }
+    
   }
