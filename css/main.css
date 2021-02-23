@@ -5,6 +5,7 @@ body{
   position: fixed;
   height: 100%;
   width: 100%;
+  overscroll-behavior-x: none;
 
 -moz-user-select: none;
 -webkit-user-select: none;

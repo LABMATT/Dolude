@@ -125,9 +125,9 @@ class pageClass {
       
 
       // Create new stroke in the array.
-      newStroke(colour)
+      newStroke(colour, size)
       {
-        this.strokeArray.push(new userStroke(colour, 2));
+        this.strokeArray.push(new userStroke(colour, size));
       }
 
 
@@ -187,7 +187,7 @@ class pageClass {
       this.colour = clr;
       this.xvec = [];
       this.yvec = [];
-      this.size = sz;
+      this.lsize = sz;
     }
 
     setNode(x, y)

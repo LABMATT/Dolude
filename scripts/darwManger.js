@@ -1,11 +1,10 @@
-var size = 2;
+var size = 2; // Size of the line drawn.
+var currentPage = 0; // The current page in use
+var currentLayer = 0; // The current layer in use.
+var colour = "black"; // The colour of the line in use.
+var disabledLayers = []; // Layers that are not displayed.
 
-// What layer and page were currently drawing on. Canvas data stores all the data of the drawing.
-var currentPage = 0;
-var currentLayer = 0;
-var colour = "white";
-var disabledLayers = [];
-
+// Main data struture element.
 var ds;
 
 
@@ -27,6 +26,8 @@ function fingerXY(fresh)
 }
 
 
+
+// Draw poing draws a point on current canvas, then adds to the drawing array.
 function drawPoint(x, y, fresh)
 {
   var lx = 0, ly = 0;
@@ -34,7 +35,7 @@ function drawPoint(x, y, fresh)
   if(fresh == true)
   {
 
-    ds.getPage(currentPage).getLayer(currentLayer).newStroke(colour);
+    ds.getPage(currentPage).getLayer(currentLayer).newStroke(colour, size);
     ds.getPage(currentPage).getLayer(currentLayer).setStroke(x, y);
 
     lx = x;
@@ -106,7 +107,7 @@ function redrawCanvas() {
   }
 }
 
-
+// redraw canvas layers and lines called by redrawcanvas.
 function redraw(lr) {
   console.log("redrawn layer: " + lr);
 
@@ -119,7 +120,7 @@ function redraw(lr) {
     
   ctx.beginPath();
   ctx.lineCap = 'round';
-  ctx.lineWidth = size;
+  ctx.lineWidth = vectorOhYeah.lsize;
   ctx.strokeStyle = vectorOhYeah.colour;
 
   var x = vectorOhYeah.xvec;
@@ -146,6 +147,9 @@ function canvasBacking(colour) {
   redrawCanvas();
 }
 
+
+
+// Change the page 
 function changePage(lipage) {
   currentPage = lipage;
   console.log("Changing page to: " + currentPage)
@@ -154,14 +158,20 @@ function changePage(lipage) {
   redrawCanvas();
 }
 
+
+
+// change layer, if layer doest exist then create next layer.
 function changeLayer(lr)
 {
   currentLayer = lr;
-  console.log("now editing layer: " + lr)
+  console.log("now editing layer: " + lr);
 
   redrawCanvas();
 }
 
+
+
+// enable a layer form the array.
 function enableLayer(lr)
 {
 disabledLayers.splice(disabledLayers.indexOf(lr), 1);
