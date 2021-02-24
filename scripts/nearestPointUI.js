@@ -1,10 +1,15 @@
 class npui {
-  constructor()
+  constructor(canvasName)
   {
+    this.canvasName = canvasName;
     this.nodeArray = []; // Array that all nodes are stored into.
     this.snd = 10; // Standard node distance.
+    this.ancorLoc = "center";
+
   }
 
+
+  // Sets a node as needing no perant and having no angel from other nodes, insted provides a lcoation on screen for that ancor node to be placed.
   setAnchor()
   {
 
@@ -29,6 +34,23 @@ class npui {
   }
   
   
+  // Display canvas puts this all into action.
+  display(on)
+  {
+    var canvas = document.getElementById(this.canvasName);
+    var cwidth = canvas.width;
+    var cheight = canvas.height;
+    var menuCenterX = cwidth / 2;
+    var menuCenterY = cheight / 2;
+
+    if(display == true)
+    { 
+      
+    } else
+    {
+
+    }
+  }
 }
 
 
