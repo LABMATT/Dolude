@@ -44,7 +44,8 @@ class npui {
   }
   }
   
-  
+
+  // Might be better to just refactor as i go.
   // Display canvas puts this all into action.
   // Gets the xy points of every element of the menu starting with anchor.
   // plots a line from the xy point to the next to make the tree.
