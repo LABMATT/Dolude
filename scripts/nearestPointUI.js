@@ -1,23 +1,35 @@
+/* 
+Neareset-point-user-input or upui is a modle of menu and ui that uses points conncted by lines to reprsent a tree stuture.
+This class creates a new menu system and stores all its nodes and parmaiters.
+*/
+
 class npui {
   constructor(canvasName)
   {
-    this.canvasName = canvasName;
+    this.canvasName = canvasName; // The name of the canves element so the ui can be drawn to it.
     this.nodeArray = []; // Array that all nodes are stored into.
     this.snd = 10; // Standard node distance.
-    this.anchor;
+    this.anchor; // is the main achor node defined at startup.
 
+    this.anchorOffSet.x = 0; // The multiplcation factor to get the constuctor postion to the needed postion.
+    this.anchorOffSet.y = 0; // The multiplcation factor to get the constuctor postion to the needed postion.
   }
 
+  
 
-  // Sets a node as needing no perant and having no angel from other nodes, insted provides a lcoation on screen for that ancor node to be placed.
-  setAnchor(anc, x, y)
+
+  // Create a new anchor, Sets a node as needing no perant and having no angel from other nodes, insted provides a lcoation on screen for that ancor node to be placed.
+  setAnchor(ancNodeObj, x, y)
   {
 
-    this.anchor = anc;
+    this.anchor = ancNodeObj;
     this.anchor.x = x;
     this.anchor.y = y;
+    this.anchor.ax = 10000; //Sets the defualt postion for rest of calculations to be oone around.
+    this.anchor.ay = 10000;
   }
 
+  // new node takes a pregnrated object node and pushes it to the node array.
   newNode(obj) {
     
     this.nodeArray.push(obj);
@@ -107,15 +119,20 @@ class npui {
 }
 
 
+//##############################################################################################################################################################
+
+
 // Nodes are made by users but creating the class and then adding it to the tree using newNode(<ThereCustomNode>);
 class node {
   constructor(id, perant)
   {
     this.nodeID = id;         // The ID that can be used to refreance this node.
     this.perantID = perant;   // The ID of the node this node is attached to.
-    this.angle = 0;           // Where stright to top of screen is 0 degreese. What angle from there does your node point off in?
-    this.x;
-    this.y;
+    this.angle = 0;           // Where stright to top of screen is 0 degreese. What angle from there does your node point off in.
+    this.ax = null;           // If this node is an anchor then these will be set as the proper origon postion.
+    this.ay = null;           // If this node is an anchor then these will be set as the proper origon postion.
+    this.x;                   // An fake pre scaling based off postion of anchor.
+    this.y;                   // An fake pre scaling based off postion of anchor.
     this.perantX;
     this.perantY;
 
@@ -158,7 +175,7 @@ class node {
   // Sets the size of the line going to the node.
   setLineSize(ls)
   {
-    this.linesize = ls
+    this.linesize = ls;
   }
 
   //text displayed at postion stated.

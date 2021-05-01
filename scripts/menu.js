@@ -25,6 +25,7 @@ if (typeof e === 'object') {
 }
 }
 
+// Remove the menu by setting the display to false, 
 function clearMenu() {
 if(displayMenu == true)
 {
