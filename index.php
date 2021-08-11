@@ -3,13 +3,16 @@
 <head>
 <title>Dolude</title>
 
+<!-- Link Main styles -->
 <link rel="stylesheet" type="text/css" href="css/main.css">
 <link rel="stylesheet" type="text/css" href="css/host.css">
 
+<!-- Setup how site displays on mobile devices. -->
 <meta name="viewport" content="user-scalable=no">
 <meta name="apple-mobile-web-app-capable" Content="yes">
 <meta name="mobile-web-app-capable" Content="yes">
 
+<!-- Include nessary script files. -->
   <script src="socket.io/dist/socket.io.js"></script>
   <script>const socket = io("http://10.0.0.254:3000");</script>
   <script type="text/javascript" src="scripts/windowResize.js"></script>
@@ -65,10 +68,6 @@
     <button onclick="joinHost();">Join Session!</button>
     <button onclick="joinMenu()" id="can">Cancel (keybind: ctrl key + J)</button>
   </div>
-
-
-
-
   </div>
 </body>
 </html>
