@@ -1,7 +1,7 @@
 // This file connects to the server with websocket info.
 
 // Server the websocket conencts to.
-const url = "ws://localhost:8080";
+const url = "ws://192.168.1.108:8080";
 const connection = new WebSocket(url);
 // Time between retrying websocket when server disconnects.
 var rstime = 1000;
