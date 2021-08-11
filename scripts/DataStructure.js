@@ -1,3 +1,5 @@
+// Data stuture is in charger of holding a drawing as it is. It sturtures how strokes  are stored and all the preamiters of the darwing.
+
 class DataStructure {
 
     // On insital construction of datascrutcute objectm, create pagecount and pages ready for use.

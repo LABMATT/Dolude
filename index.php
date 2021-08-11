@@ -13,8 +13,6 @@
 <meta name="mobile-web-app-capable" Content="yes">
 
 <!-- Include nessary script files. -->
-  <script src="socket.io/dist/socket.io.js"></script>
-  <script>const socket = io("http://10.0.0.254:3000");</script>
   <script type="text/javascript" src="scripts/windowResize.js"></script>
   <script type="text/javascript" src="scripts/init.js"></script>
   <script type="text/javascript" src="scripts/darwManger.js"></script>

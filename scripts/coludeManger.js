@@ -43,6 +43,7 @@ if(hostOpen == true)
     }
 }
 
+// Sends the data to the server for setting up a new hosted session
 function hostMenu() 
 {
     var name = document.getElementById("uname").value;
@@ -81,7 +82,7 @@ function hostMenu()
 }
 
 
-// Connect to the server as a joining user
+// Connect to the server as and resgister as a new joining user.
 function joinHost()
 {
   var name = document.getElementById("joinname").value;
@@ -101,7 +102,7 @@ function joinHost()
 }
 
 
-// Send a message to the server.
+// Sends an updated packet of infomation to the server.
 function serverMessage(path, value)
 {
 
