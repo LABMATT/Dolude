@@ -13,6 +13,7 @@
 <meta name="mobile-web-app-capable" Content="yes">
 
 <!-- Include nessary script files. -->
+  <script type="text/javascript" src="scripts/lmws.js"></script>
   <script type="text/javascript" src="scripts/windowResize.js"></script>
   <script type="text/javascript" src="scripts/init.js"></script>
   <script type="text/javascript" src="scripts/darwManger.js"></script>
