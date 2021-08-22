@@ -3,6 +3,7 @@ var currentPage = 0; // The current page in use
 var currentLayer = 0; // The current layer in use.
 var colour = "black"; // The colour of the line in use.
 var disabledLayers = []; // Layers that are not displayed.
+var happy = false;
 
 // Main data struture element.
 var ds;
@@ -35,6 +36,10 @@ function drawPoint(x, y, fresh)
   if(fresh == true)
   {
 
+    if(happy == true) {
+          ds.getPage(currentPage).getLayer(currentLayer).getLatestStroke().calcMinMax();
+
+    }
     ds.getPage(currentPage).getLayer(currentLayer).newStroke(colour, size);
     ds.getPage(currentPage).getLayer(currentLayer).setStroke(x, y);
 
