@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>DoludeSC</title>
+        <meta charset="UTF-8">
+
+        <!-- Style sheet for index -->
+        <link rel="stylesheet" type="text/css" href="css/screenCapture.css">
+
+        <!-- Setup of scripts -->
+        <script type="text/javascript" src="bscripts/screenCapture.js"></script>
+        <script type="text/javascript" src="scripts\screencap.js"></script>
+
+    </head>
+<body>
+
+    <!-- File explorer  -->
+    <div id="fileview">
+
+            <div id="recinfo">
+                <h1 id="recheading">Your Recordings Will Show Up Here:</h1>
+                <p> - Click "Downlaod" once finished recording to download the file.</p> 
+                <p> - Click "Delete" To remove the video.</p> 
+            </div>
+
+            <div id="files">
+                <div id="filecontent">
+                    
+                </div>
+            </div>
+
+    </div>
+
+    <!-- This is the Big screen recoding and interaction area. -->
+    <div id="screenrec">
+        <div>
+            <button onclick="startCapture()">Start Recording</button>
+        </div>
+
+        <div id="preview">
+            <video id="vid" width="1920" height="1000" controls autoplay></video>
+        </div>
+        <div style="padding: 1%; background-color: gold;">
+        </div>
+
+    </div>
+
+</body>
+</html>

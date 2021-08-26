@@ -1,0 +1,63 @@
+body {
+    margin: 0%;
+    display: flex;
+    flex-direction: row;
+    width: 100vw;
+    height: 100vh;
+    overflow:hidden;
+}
+
+#logo {
+    color: white;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+#fileview {
+    order: 1;
+    flex-grow: 1;
+    align-items: stretch;
+    background-color: gray;
+}
+
+#screenrec {
+    order: 2;
+    flex-grow: 20;
+    display: flex;
+    flex-direction: column;
+    background-color: rgba(33,40,182);
+}
+
+#recheading {
+    font-family:sans-serif;
+    text-align: center;
+}
+
+#recinfo {
+    padding: 1%;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    background-color: rgb(105, 105, 105);
+    color: white;
+}
+
+#files {
+    position: fixed;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+#preview {
+    display: flex;
+    justify-content: center;
+    padding: 2%;
+}
+
+#video {
+    display: inline-block;
+     background-color: #303030;
+
+     flex-grow: 0;
+     width: 50%;
+     
+     align-self: center;
+     border-radius: 15px;
+}
