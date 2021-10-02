@@ -54,7 +54,6 @@ body {
 #video {
     display: inline-block;
      background-color: #303030;
-
      flex-grow: 0;
      width: 50%;
      

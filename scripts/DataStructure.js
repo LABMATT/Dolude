@@ -121,6 +121,10 @@ class pageClass {
 
           this.strokeArray = [];
 
+          // This determands if this currenty layer has a stoke value of the lowest and higest value. If it does then we can check each srokes lowest and highest value and then if thats correct then detemand inetercet point.
+          this.minxy = [];
+          this.maxxy = [];
+
 
       }
 
@@ -131,8 +135,6 @@ class pageClass {
       {
         this.strokeArray.push(new userStroke(colour, size));
       }
-
-
 
       setStroke(x, y)
       {
