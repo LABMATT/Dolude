@@ -121,6 +121,10 @@ class pageClass {
 
           this.strokeArray = [];
 
+          // This determands if this currenty layer has a stoke value of the lowest and higest value. If it does then we can check each srokes lowest and highest value and then if thats correct then detemand inetercet point.
+          this.minxy = [];
+          this.maxxy = [];
+
 
       }
 
@@ -131,8 +135,6 @@ class pageClass {
       {
         this.strokeArray.push(new userStroke(colour, size));
       }
-
-
 
       setStroke(x, y)
       {
@@ -180,7 +182,7 @@ class pageClass {
   }
 
 
-// Each stroke 
+// Each stroke // Stores what the colour is, each vertext it was stroked at. The line size, then the minium and maxium number in xy1 xy2 (cube fromat) that the storke spans between.
   class userStroke
   {
     constructor(clr, sz)
@@ -190,6 +192,54 @@ class pageClass {
       this.xvec = [];
       this.yvec = [];
       this.lsize = sz;
+
+      // Max values for this stroke.
+      this.minxy = [];
+      this.maxxy = [];
+    }
+
+    // Saves the smallest and largest values on both axis for use in rubbing.
+    calcMinMax()
+    {
+
+      // Find the min on the X axis.
+      this.minxy[0] = this.xvec[0];
+      this.xvec.forEach(current => {
+        if(current < this.minxy[0])
+        {
+          this.minxy[0] = current;
+        }
+      });
+
+      // Finds the min on the Y axis.
+      this.minxy[1] = this.yvec[0];
+      this.yvec.forEach(current => {
+        if(current < this.minxy[1])
+        {
+          this.minxy[1] = current;
+        }
+      });
+
+       // Find the max on the X axis.
+      this.maxxy[0] = this.xvec[0];
+      this.xvec.forEach(current => {
+        if(current > this.maxxy[0])
+        {
+          this.maxxy[0] = current;
+        }
+      });
+
+      // Finds the max on the Y axis.
+      this.maxxy[1] = this.yvec[0];
+      this.yvec.forEach(current => {
+        if(current > this.maxxy[1])
+        {
+          this.maxxy[1] = current;
+        }
+      });
+
+      console.log("finished calc minmax");
+      console.log("minxy: " + this.minxy + " maxxy: " + this.maxxy);
     }
 
     setNode(x, y)
@@ -197,7 +247,6 @@ class pageClass {
       this.xvec.push(x);
       this.yvec.push(y);
     }
-
 
     getLX()
     {

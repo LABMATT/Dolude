@@ -3,6 +3,8 @@ var currentPage = 0; // The current page in use
 var currentLayer = 0; // The current layer in use.
 var colour = "black"; // The colour of the line in use.
 var disabledLayers = []; // Layers that are not displayed.
+var isrubber = false;
+var happy = false;
 
 // Main data struture element.
 var ds;
@@ -16,7 +18,7 @@ function mouseXY(fresh)
  drawPoint(x,y, fresh);
 }
 
-// This function is triggered if this is a new line, finger just touched paper, fresh. 
+// This function is triggered if this is a new line, finger just touched paper, fresh.
 function fingerXY(fresh)
 {
 
@@ -30,13 +32,29 @@ function fingerXY(fresh)
 // Draw poing draws a point on current canvas, then adds to the drawing array.
 function drawPoint(x, y, fresh)
 {
+  if(isrubber == true)
+  {
+
+    rubPoint(x, y, fresh);
+
+  } else {
+
   var lx = 0, ly = 0;
-  
+
   if(fresh == true)
   {
 
+    if(happy == true) {
+          ds.getPage(currentPage).getLayer(currentLayer).getLatestStroke().calcMinMax();
+
+    }
     ds.getPage(currentPage).getLayer(currentLayer).newStroke(colour, size);
     ds.getPage(currentPage).getLayer(currentLayer).setStroke(x, y);
+
+    // Sets min xy inital
+    ds.getPage(currentPage).getLayer(currentLayer).minxy = [x, y];
+    ds.getPage(currentPage).getLayer(currentLayer).maxxy = [x, y];
+
 
     lx = x;
     ly = y;
@@ -45,6 +63,31 @@ function drawPoint(x, y, fresh)
     lx = ds.getPage(currentPage).getLayer(currentLayer).getLatestStroke().getLX();
     ly = ds.getPage(currentPage).getLayer(currentLayer).getLatestStroke().getLY();
     ds.getPage(currentPage).getLayer(currentLayer).setStroke(x, y);
+
+    // sets min max
+    // If new x is less than the current layers minxy.
+    if(x < ds.getPage(currentPage).getLayer(currentLayer).minxy[0]) {
+      ds.getPage(currentPage).getLayer(currentLayer).minxy[0] = x;
+    }
+
+    // If new y is less than the current layers minxy.
+    if(y < ds.getPage(currentPage).getLayer(currentLayer).minxy[1]) {
+      ds.getPage(currentPage).getLayer(currentLayer).minxy[1] = y;
+    }
+
+
+    // If new x is greater than the current layers maxxy.
+    if(x > ds.getPage(currentPage).getLayer(currentLayer).maxxy[0]) {
+      ds.getPage(currentPage).getLayer(currentLayer).maxxy[0] = x;
+    }
+
+    // If new y is greater than the current layers maxxy.
+    if(y > ds.getPage(currentPage).getLayer(currentLayer).maxxy[1]) {
+      ds.getPage(currentPage).getLayer(currentLayer).maxxy[1] = y;
+    }
+
+    console.log("minxy: " + ds.getPage(currentPage).getLayer(currentLayer).minxy[0] + ", " + ds.getPage(currentPage).getLayer(currentLayer).minxy[1]);
+    console.log("maxxy: " + ds.getPage(currentPage).getLayer(currentLayer).maxxy[0] + ", " + ds.getPage(currentPage).getLayer(currentLayer).maxxy[1]);
   }
 
   var canvas = document.getElementById("myCanvas");
@@ -56,12 +99,13 @@ function drawPoint(x, y, fresh)
   ctx.strokeStyle = colour;
   ctx.moveTo(lx, ly);
   ctx.lineTo(x, y);
-  
+
 
   ctx.fillStyle = 'black';
   ctx.stroke();
   ctx.fill();
   ctx.closePath();
+}
 }
 
 
@@ -94,8 +138,8 @@ function redrawCanvas() {
      {
        dlr = true;
      }
-   }); 
-   
+   });
+
    // If layer is not disabled, then set current layer to that and reday canvas
    if(dlr == false)
    {
@@ -118,7 +162,7 @@ function redraw(lr) {
 
   // Gets the page class and get the layer and drawing then loop between them and draw them back on the canvas.
   ds.getPage(currentPage).getLayer(lr).getStrokes().forEach(vectorOhYeah => {
-    
+
   ctx.beginPath();
   ctx.lineCap = 'round';
   ctx.lineWidth = vectorOhYeah.lsize;
@@ -150,7 +194,7 @@ function canvasBacking(colour) {
 
 
 
-// Change the page 
+// Change the page
 function changePage(lipage) {
   currentPage = lipage;
   console.log("Changing page to: " + currentPage)
@@ -192,12 +236,12 @@ function saveDrawing()
 {
   console.log("saving file%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%");
   var save = "";
-  
+
   ds.pages.forEach(element => {
 
     save += ";" + JSON.stringify(element.pageData());
     console.log("doing a page");
-    
+
     element.layers.forEach(lyr => {
 
       console.log("my returned data was: " + JSON.stringify(lyr.getDataArray()))
@@ -236,7 +280,7 @@ function loadDrawing()
 
   reader.onload = function() {
     console.log(reader.result);
-    
+
     var splitInteral = reader.result.split(';');
     splitInteral.forEach(page => {
       console.log("page element: " + page);
@@ -264,12 +308,53 @@ function loadDrawing()
 function initCANVAS() {
   console.log("getting canvas ready");
 
-  // cdt(cd) > user(localuser) > canvasNum(1) > layers(1) > x  
-  
+  // cdt(cd) > user(localuser) > canvasNum(1) > layers(1) > x
+
   ds = new DataStructure();
 }
 
-// Rubber will remove a drawing line.
-function rubber() {
+// Draw poing draws a point on current canvas, then adds to the drawing array.
+function rubPoint(x, y, fresh)
+{
+  var lx = 0, ly = 0;
   
+  if(fresh == true)
+  {
+
+    if(happy == true) {
+          ds.getPage(currentPage).getLayer(currentLayer).getLatestStroke().calcMinMax();
+
+    }
+    ds.getPage(currentPage).getLayer(currentLayer).newStroke(colour, size);
+    ds.getPage(currentPage).getLayer(currentLayer).setStroke(x, y);
+
+    lx = x;
+    ly = y;
+  } else{
+
+    lx = ds.getPage(currentPage).getLayer(currentLayer).getLatestStroke().getLX();
+    ly = ds.getPage(currentPage).getLayer(currentLayer).getLatestStroke().getLY();
+    ds.getPage(currentPage).getLayer(currentLayer).setStroke(x, y);
+  }
+
+  var canvas = document.getElementById("myCanvas");
+  var ctx = canvas.getContext("2d");
+
+  ctx.beginPath();
+  ctx.lineCap = 'round';
+  ctx.lineWidth = size;
+  ctx.strokeStyle = colour;
+  ctx.moveTo(lx, ly);
+  ctx.lineTo(x, y);
+
+
+  ctx.fillStyle = 'black';
+  ctx.stroke();
+  ctx.fill();
+  ctx.closePath();
+}
+
+// This function is used to rub
+function rubber() {
+
 }
