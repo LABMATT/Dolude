@@ -1,3 +1,5 @@
+// Register all the events for drawing. 
+// When clicked it adds a listner for the mouse down click.
 
 var click = false;
 var fresh = true;

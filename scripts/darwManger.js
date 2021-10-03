@@ -116,6 +116,7 @@ function redraw(lr) {
 
   console.log("Starting Redraw Loop.");
 
+  // Gets the page class and get the layer and drawing then loop between them and draw them back on the canvas.
   ds.getPage(currentPage).getLayer(lr).getStrokes().forEach(vectorOhYeah => {
     
   ctx.beginPath();
@@ -268,3 +269,7 @@ function initCANVAS() {
   ds = new DataStructure();
 }
 
+// Rubber will remove a drawing line.
+function rubber() {
+  
+}
