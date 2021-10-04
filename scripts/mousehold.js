@@ -3,7 +3,6 @@
 
 var click = false;
 var fresh = true;
-var menuActive = false;
 
 function mousehold() {
 
@@ -25,23 +24,30 @@ function mouseStart(e) {
 
   if (typeof e === 'object') {
 
-if(e.button == 0 && menuActive == false)
+if(e.button == 0 && displayMenu == false)
 {
   click = true;
   mouseXY(true);
+} else if(e.button == 2) { // actives the menu
+  console.log("button pressed");
+  displayMenu = true;
 }
 }
 }
 
 // WHen mouse is let got then finish drawing.
-function mouseEnd()
+function mouseEnd(e)
 {
   click = false;
+
+  if(e.button == 2) {
+    displayMenu = false;
+  }
 }
 
 
 function touchStart() {
-if(menuActive == false)
+if(displayMenu == false)
 {
 click = true;
 fingerXY(true);
@@ -60,7 +66,7 @@ function getMouseCor() {
 
 if (click == true)
 {
-  if(menuActive == false)
+  if(displayMenu == false)
   {
 
 mouseXY(false);
@@ -75,7 +81,7 @@ function touchCor()
 
 if (click == true)
 {
-  if(menuActive == false)
+  if(displayMenu == false)
   {
 fresh = false;
 fingerXY(false);
@@ -85,6 +91,6 @@ fingerXY(false);
 }
 }
 
-function menuActiveFF(isActive) {
-  menuActive = isActive;
+function displayMenuFF(isActive) {
+  displayMenu = isActive;
 }

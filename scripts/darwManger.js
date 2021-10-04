@@ -122,15 +122,14 @@ function redrawCanvas() {
   var canvas = document.getElementById("myCanvas");
   var ctx = canvas.getContext("2d");
 
+  ctx.globalAlpha = 1.0;
+
   //ctx.clearRect(0, 0, canvas.width, canvas.height);
   ctx.beginPath();
   ctx.rect(0, 0, canvas.width, canvas.height);
   ctx.fillStyle = ds.getPage(currentPage).pageColour;
   ctx.fill();
   ctx.closePath();
-
-  // This is the main loop of canvs items.
-  canvasrfl(ctx);
 
   //layer count
   var lrc = ds.getPage(currentPage).getLayerNumbers();
@@ -155,6 +154,10 @@ function redrawCanvas() {
     dlr = false;
    }
   }
+
+  // This is the main loop of canvs items.
+  canvasrfl(ctx);
+
 }
 
 // redraw canvas layers and lines called by redrawcanvas.

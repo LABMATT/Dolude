@@ -1,10 +1,12 @@
 // this is in charge of marking limits to visual see where a layer outer point are.
 
-var ctx_limits = false;
-var ctx_limits_type = 0; // 0 = all, 1 = layer only, 2 = strokes.
+var ctx_limits = true;
+var ctx_limits_type = 1; // 0 = all, 1 = layer only, 2 = strokes.
 
 function mxminLimits(ctx) {
   if(ctx_limits == true) {
+
+    ctx.globalAlpha = 0.2;
 
     if(ctx_limits_type == 0 || ctx_limits_type == 1)
     {
@@ -33,23 +35,30 @@ function mxminLimits(ctx) {
     strokes.forEach(element => {
 
       if(element.maxxy[0] != undefined) {
+
       ctx.beginPath();
-      ctx.fillStyle = "green";
-      ctx.arc(element.maxxy[0], element.maxxy[1],20,0,2*Math.PI);
-      ctx.fill();
-      ctx.closePath();
+      ctx.strokeStyle = "#00FF06";
+      ctx.rect(element.minxy[0], element.minxy[1], (element.maxxy[0] - element.minxy[0]), (element.maxxy[1] - element.minxy[1]));
       ctx.stroke();
+      ctx.closePath();
+      
       ctx.beginPath();
-      ctx.fillStyle = "green";
-      ctx.arc(element.minxy[0], element.minxy[1],20,0,2*Math.PI);
-      ctx.fill();
+      ctx.strokeStyle = "green";
+      ctx.arc(element.maxxy[0], element.maxxy[1],20,0,2*Math.PI);
       ctx.stroke();
       ctx.closePath();
 
+      ctx.beginPath();
+      ctx.strokeStyle = "green";
+      ctx.arc(element.minxy[0], element.minxy[1],20,0,2*Math.PI);
+      ctx.stroke();
+      ctx.closePath();
       }
       
     });
     
   }
+
+  ctx.globalAlpha = 1.0;
 }
 }
