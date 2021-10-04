@@ -122,13 +122,12 @@ class pageClass {
           this.strokeArray = [];
 
           // This determands if this currenty layer has a stoke value of the lowest and higest value. If it does then we can check each srokes lowest and highest value and then if thats correct then detemand inetercet point.
-          this.minxy = [];
-          this.maxxy = [];
+          this.minxy = null;
+          this.maxxy = null;
 
+          this.layerRubStroke = new rubStroke();
 
       }
-
-      
 
       // Create new stroke in the array.
       newStroke(colour, size)
@@ -153,9 +152,6 @@ class pageClass {
         return this.strokeArray;
       }
 
-
-
-
       // The last x y cordinate form the mouse, If not a fresh line the draw line from this to new cordinat. If fresh then will be same as current.
       lastXY(x, y)
       {
@@ -178,6 +174,23 @@ class pageClass {
       refactorVector()
       {
 
+      }
+
+      // Adds a rubber point to the array.
+      setRub(x, y)
+      {
+        this.layerRubStroke.setNode(x, y);
+      }
+
+      // Adds a rubber point to the array.
+      setRubSize(size)
+      {
+        this.layerRubStroke.lsize = size;
+      }
+
+      getRubStokes()
+      {
+        return this.layerRubStroke;
       }
   }
 
@@ -237,9 +250,6 @@ class pageClass {
           this.maxxy[1] = current;
         }
       });
-
-      console.log("finished calc minmax");
-      console.log("minxy: " + this.minxy + " maxxy: " + this.maxxy);
     }
 
     setNode(x, y)
@@ -258,4 +268,35 @@ class pageClass {
       return this.yvec[this.yvec.length - 1];
     }
     
+  }
+
+
+  // this element is in charge of keeping the array of elements for rubbing.
+  class rubStroke {
+    constructor()
+    {
+      this.xvec = [];
+      this.yvec = [];
+      this.lsize = 0;
+
+      // Max values for this stroke.
+      this.minxy = [];
+      this.maxxy = [];
+    }
+
+    setNode(x, y)
+    {
+      this.xvec.push(x);
+      this.yvec.push(y);
+    }
+
+    getLX()
+    {
+      return this.xvec[this.xvec.length - 1];
+    }
+
+    getLY()
+    {
+      return this.yvec[this.yvec.length - 1];
+    }
   }

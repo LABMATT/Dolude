@@ -44,16 +44,22 @@ function drawPoint(x, y, fresh)
   if(fresh == true)
   {
 
-    if(happy == true) {
-          ds.getPage(currentPage).getLayer(currentLayer).getLatestStroke().calcMinMax();
-
+    if(ds.getPage(currentPage).getLayer(currentLayer).getLatestStroke() != null)
+    {
+      ds.getPage(currentPage).getLayer(currentLayer).getLatestStroke().calcMinMax();
     }
+
     ds.getPage(currentPage).getLayer(currentLayer).newStroke(colour, size);
     ds.getPage(currentPage).getLayer(currentLayer).setStroke(x, y);
 
-    // Sets min xy inital
-    ds.getPage(currentPage).getLayer(currentLayer).minxy = [x, y];
-    ds.getPage(currentPage).getLayer(currentLayer).maxxy = [x, y];
+    // If this is the first time the layers been used then we can set the first values.
+    if(ds.getPage(currentPage).getLayer(currentLayer).minxy == null || ds.getPage(currentPage).getLayer(currentLayer).maxxy == null)
+    {
+      // Sets min xy inital
+      ds.getPage(currentPage).getLayer(currentLayer).minxy = [x, y];
+      ds.getPage(currentPage).getLayer(currentLayer).maxxy = [x, y];
+    }
+    
 
 
     lx = x;
@@ -123,11 +129,12 @@ function redrawCanvas() {
   ctx.fill();
   ctx.closePath();
 
+  // This is the main loop of canvs items.
+  canvasrfl(ctx);
 
   //layer count
   var lrc = ds.getPage(currentPage).getLayerNumbers();
   var dlr = false;
-  console.log("the amout of layers is: " + lrc);
 
   // cycle though each layer, check if layer is disabled, if its not draw it!. if it is skip it.
   for(var i = 0; i < lrc; i++)
@@ -145,7 +152,6 @@ function redrawCanvas() {
    {
      redraw(i);
    } else{
-     console.log("mot redrawing thjis layer cus disabled");
     dlr = false;
    }
   }
@@ -153,12 +159,9 @@ function redrawCanvas() {
 
 // redraw canvas layers and lines called by redrawcanvas.
 function redraw(lr) {
-  console.log("redrawn layer: " + lr);
 
   var canvas = document.getElementById("myCanvas");
   var ctx = canvas.getContext("2d");
-
-  console.log("Starting Redraw Loop.");
 
   // Gets the page class and get the layer and drawing then loop between them and draw them back on the canvas.
   ds.getPage(currentPage).getLayer(lr).getStrokes().forEach(vectorOhYeah => {
@@ -316,45 +319,46 @@ function initCANVAS() {
 // Draw poing draws a point on current canvas, then adds to the drawing array.
 function rubPoint(x, y, fresh)
 {
-  var lx = 0, ly = 0;
   
+  // If a fresh rub point, although they use the same array, we need to make sure that the size of the rubber is updated. We also know that its nort worth refactoring the Strokes folio of the current layer becuase there is only one rub element in it.
   if(fresh == true)
   {
 
-    if(happy == true) {
-          ds.getPage(currentPage).getLayer(currentLayer).getLatestStroke().calcMinMax();
+    ds.getPage(currentPage).getLayer(currentLayer).setRubSize(size);
+    ds.getPage(currentPage).getLayer(currentLayer).setRub(x, y);
+   
+  } else {
 
+    ds.getPage(currentPage).getLayer(currentLayer).setRub(x, y);
+
+    lx = ds.getPage(currentPage).getLayer(currentLayer).getRubStokes().getLX();
+    ly = ds.getPage(currentPage).getLayer(currentLayer).getRubStokes().getLY();
+
+    
+    // This stack of calls here gets the min pixel and max pixel that a line has been drawn at.
+    layerminx = ds.getPage(currentPage).getLayer(currentLayer).minxy[0];
+    layerminy = ds.getPage(currentPage).getLayer(currentLayer).minxy[1];
+    layermaxx = ds.getPage(currentPage).getLayer(currentLayer).maxxy[0];
+    layermaxy = ds.getPage(currentPage).getLayer(currentLayer).maxxy[1];
+
+    // If our rubber is in the area of somwhere in the layer thats been drawn we know its time to rub!
+    if(lx > layerminx && ly > layerminy && x < layermaxx && y < layermaxy)
+    {
+      console.log("Rubber within layer limit.");
+
+      lrstrokes = ds.getPage(currentPage).getLayer(currentLayer).getStrokes();
+
+      var num = 0;
+      
+      lrstrokes.forEach(element => {
+        num++;
+        console.log("stroke number" + num);
+        
+        if(lx > element.minxy[0] && ly > element.minxy[1] && x < element.maxxy[0] && y < element.maxxy[0])
+        {
+          console.log("Time to rub stroke number: " + num);
+        }
+      });
     }
-    ds.getPage(currentPage).getLayer(currentLayer).newStroke(colour, size);
-    ds.getPage(currentPage).getLayer(currentLayer).setStroke(x, y);
-
-    lx = x;
-    ly = y;
-  } else{
-
-    lx = ds.getPage(currentPage).getLayer(currentLayer).getLatestStroke().getLX();
-    ly = ds.getPage(currentPage).getLayer(currentLayer).getLatestStroke().getLY();
-    ds.getPage(currentPage).getLayer(currentLayer).setStroke(x, y);
   }
-
-  var canvas = document.getElementById("myCanvas");
-  var ctx = canvas.getContext("2d");
-
-  ctx.beginPath();
-  ctx.lineCap = 'round';
-  ctx.lineWidth = size;
-  ctx.strokeStyle = colour;
-  ctx.moveTo(lx, ly);
-  ctx.lineTo(x, y);
-
-
-  ctx.fillStyle = 'black';
-  ctx.stroke();
-  ctx.fill();
-  ctx.closePath();
-}
-
-// This function is used to rub
-function rubber() {
-
 }

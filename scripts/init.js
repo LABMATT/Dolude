@@ -1,15 +1,17 @@
+var refreshrate = 6;
+
 function init()
 {
+    src="scripts/canvasfunctions/mxminLimits.js";
+console.log("Setting up Dolude.");
 initCANVAS();
-//savePoints();
 resize(); 
 disableRightMenu();
 mousehold();
-startMenu();
 shortcutManger();
 createHost();
 joinMenu();
 //start();
-sockEvents();
+setInterval(coreloop, refreshrate);
 console.log("INIT COMPLETE");
 }
