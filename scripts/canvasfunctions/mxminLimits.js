@@ -1,9 +1,9 @@
 // this is in charge of marking limits to visual see where a layer outer point are.
 
-var ctx_limits = true;
+var ctx_limits = false;
 var ctx_limits_type = 0; // 0 = all, 1 = layer only, 2 = strokes.
 
-function mxminLimits() {
+function mxminLimits(ctx) {
 
   if(ctx_limits == true) {
 
@@ -61,7 +61,6 @@ function mxminLimits() {
       }
       
     });
-    
   }
 
   ctx.globalAlpha = 1.0;

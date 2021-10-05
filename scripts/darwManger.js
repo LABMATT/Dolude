@@ -360,6 +360,9 @@ function rubPoint(x, y, fresh)
         if(lx > element.minxy[0] && ly > element.minxy[1] && x < element.maxxy[0] && y < element.maxxy[0])
         {
           console.log("Time to rub stroke number: " + num);
+
+          
+          
         }
       });
     }
