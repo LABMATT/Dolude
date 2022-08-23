@@ -1,5 +1,6 @@
 // this is in charge of marking limits to visual see where a layer outer point are.
 
+// CTX limits has modes that show the stroke boarder lines./
 var ctx_limits = false;
 var ctx_limits_type = 0; // 0 = all, 1 = layer only, 2 = strokes.
 
