@@ -92,8 +92,8 @@ function drawPoint(x, y, fresh)
       ds.getPage(currentPage).getLayer(currentLayer).maxxy[1] = y;
     }
 
-    console.log("minxy: " + ds.getPage(currentPage).getLayer(currentLayer).minxy[0] + ", " + ds.getPage(currentPage).getLayer(currentLayer).minxy[1]);
-    console.log("maxxy: " + ds.getPage(currentPage).getLayer(currentLayer).maxxy[0] + ", " + ds.getPage(currentPage).getLayer(currentLayer).maxxy[1]);
+    //console.log("minxy: " + ds.getPage(currentPage).getLayer(currentLayer).minxy[0] + ", " + ds.getPage(currentPage).getLayer(currentLayer).minxy[1]);
+    //console.log("maxxy: " + ds.getPage(currentPage).getLayer(currentLayer).maxxy[0] + ", " + ds.getPage(currentPage).getLayer(currentLayer).maxxy[1]);
   }
 
   var canvas = document.getElementById("myCanvas");
