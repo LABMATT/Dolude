@@ -10,6 +10,6 @@ mousehold();
 shortcutManger();
 createHost();
 joinMenu();
-setInterval(coreloop, refreshrate);
+setInterval(coreloop, refreshrate); // This runs the core loop that updates the canvas
 console.log("INIT COMPLETE");
 }
