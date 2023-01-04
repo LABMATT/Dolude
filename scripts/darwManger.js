@@ -229,6 +229,7 @@ disabledLayers.splice(disabledLayers.indexOf(lr), 1);
 redrawCanvas();
 }
 
+// Disable a layer from teh array.
 function disableLayer(lr)
 {
 disabledLayers.push(lr);

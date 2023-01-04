@@ -14,5 +14,6 @@ shortcutManger();     // This attaches an event to the
 createHost();         // Sets up host menu however is hidden.
 joinMenu();           // Setsup join menue however is hidden.
 setInterval(coreloop, refreshrate); // This runs the core loop that updates the canvas
+canhelp();            // When trigged, It will bring up a list of commands that can be exacuted.
 console.log("INIT COMPLETE");
 }
