@@ -36,6 +36,7 @@ function menu(ctx) {
 
 
 // This function takes a length of a nodes connection and the angle from orgin and cacluated the X Y postion for the next node. Produced as a return value.
+// Because distance indicates the point of orgin to the final resting point, If we were to draw a line between the two then revolve aroud the orgin we could say that the distance is essinetly the radias of a circiel. Meaning we can use it in trig functions.
 function nodeCord(angle, distance)
 {
   // Choose what type of trig function to preform.
@@ -43,6 +44,9 @@ function nodeCord(angle, distance)
   if(angle > -1 && angle < 91)
   {
     console.log("Function will preform 1 LESS THAN 90")
+
+    var x = Math.sin(angle) * distance;
+    console.log("X value is: " + x)
   }
   
   if(angle > 90 && angle < 181)
